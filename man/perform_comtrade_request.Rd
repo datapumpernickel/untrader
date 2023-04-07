@@ -2,16 +2,20 @@
 % Please edit documentation in R/comtrade_requests.R
 \name{perform_comtrade_request}
 \alias{perform_comtrade_request}
-\title{make_comtrade_request}
+\title{make_comtrade_request
+Performs the request and returns an error body with the respective error returned by the Comtrade API. Also throttles all requests to 1 request per 6 seconds, or 10 requests per minute.}
 \usage{
-perform_comtrade_request(req)
+perform_comtrade_request(req, requests_per_second = 10/60)
 }
 \arguments{
 \item{req}{a valid comtrade request built by the build_comtrade_request function}
+
+\item{requests_per_second}{rate at which throttling is done}
 }
 \value{
 json data from comtrade and possible error codes
 }
 \description{
 make_comtrade_request
+Performs the request and returns an error body with the respective error returned by the Comtrade API. Also throttles all requests to 1 request per 6 seconds, or 10 requests per minute.
 }
