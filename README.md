@@ -10,7 +10,10 @@ Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-chec
 <!-- badges: end -->
 
 The goal of untrader is to provide a simple wrapper function for the new
-Comtrade API of the UN.
+[Comtrade API of the UN](https://comtradeplus.un.org/).
+
+The package is currently under development, please be careful when
+interpreting results from the API.
 
 ## Installation
 
@@ -26,6 +29,9 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(untrader)
+
+## you need to set your API key first
+# set_primary_comtrade_key()
 
 exports <- get_comtrade_data(freq = 'A',
                    clCode = 'HS',
@@ -52,3 +58,13 @@ ggplot2::ggplot(exports) +
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+## Next steps
+
+- [ ] Implement tests for unchecked arguments, such as period, motCode
+  and the frequency.
+
+- [ ] Implement the different modes of transportation
+
+- [ ] Properly document all functions, including some more links to the
+  UN Comtrade API FAQ.

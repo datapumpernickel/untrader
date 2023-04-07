@@ -68,6 +68,8 @@ ggplot2::ggplot(exports) +
 
 ## Next steps
 
-- [ ] Implement tests for unchecked arguments, such as period, motCode and the frequency. 
-- [ ] Implement the different modes of transportation
-- [ ] Properly document all functions, including some more links to the UN Comtrade API FAQ. 
+- [ ]  Implement tests for unchecked arguments, such as period, motCode and the frequency. 
+
+- [ ]  Implement the different modes of transportation
+
+- [ ]  Properly document all functions, including some more links to the UN Comtrade API FAQ. 
