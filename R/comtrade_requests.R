@@ -11,8 +11,7 @@
 #' @param reporterCode This has to be a character vector specifying the reporter in the iso3c format. The reporter is the country that supplied the data to the UN. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)
 #' @param partnerCode This has to be a character vector specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
 #' @param period This has to be a character vector specifying the year of interest. Multiple values can be supplied as a comma separated string.
-#'
-#' @param process whether the httr2 request should be returned, which still includes the headers and possible error codes, or whether a data.frame with just the results should be returned
+#' @param motCode The code for the mode of transportation is set to the default value of 0 for all modes of transportation.
 #' @param ... For future extension
 #'
 #' @export
@@ -246,6 +245,8 @@ check_params <- function(freq = 'A',
     partnerCode = partnerCode,
     reporterCode = reporterCode,
     period = period,
+    motCode = '0',
+    partner2Code = '0',
     ...
   )
 
@@ -316,19 +317,22 @@ process_comtrade_response <- function(resp) {
   result <- resp |>
     httr2::resp_body_json(simplifyVector = T)
 
-  result <- result$data |>
-    poorman::left_join(untrader::HS |>
-                         poorman::rename(cmd_description = text) |>
-                         poorman::select(cmd_description, id),
-                       by = c("cmdCode"='id')) |>
-    poorman::left_join(untrader::PARTNER |>
-                         poorman::select(partner_iso3c = PartnerCodeIsoAlpha3,
-                                         partner_description = PartnerDesc, id),
-                       by = c("partnerCode"='id'))|>
-    poorman::left_join(untrader::REPORTER |>
-                         poorman::select(reporter_iso3c = reporterCodeIsoAlpha3,
-                                         reporter_description = reporterDesc, id),
-                       by = c("reporterCode"='id'))
-
-  return(result)
+  if(length(result$data)>0){
+    result <- result$data |>
+      poorman::left_join(untrader::HS |>
+                           poorman::rename(cmd_description = text) |>
+                           poorman::select(cmd_description, id),
+                         by = c("cmdCode"='id')) |>
+      poorman::left_join(untrader::PARTNER |>
+                           poorman::select(partner_iso3c = PartnerCodeIsoAlpha3,
+                                           partner_description = PartnerDesc, id),
+                         by = c("partnerCode"='id'))|>
+      poorman::left_join(untrader::REPORTER |>
+                           poorman::select(reporter_iso3c = reporterCodeIsoAlpha3,
+                                           reporter_description = reporterDesc, id),
+                         by = c("reporterCode"='id'))
+    return(result)
+  } else {
+    return(data.frame(count = 0))
+  }
 }
