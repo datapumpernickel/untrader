@@ -4,6 +4,9 @@
 # untrader
 
 <!-- badges: start -->
+
+[![R CMD
+Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of untrader is to …
