@@ -12,7 +12,6 @@ get_comtrade_data(
   reporterCode = NULL,
   partnerCode = NULL,
   period = NULL,
-  motCode = "0",
   process = T,
   ...
 )
@@ -32,7 +31,7 @@ get_comtrade_data(
 
 \item{period}{This has to be a character vector specifying the year of interest. Multiple values can be supplied as a comma separated string.}
 
-\item{motCode}{The code for the mode of transportation is set to the default value of 0 for all modes of transportation.}
+\item{process}{Whether to return the raw httr2 request or a dataframe with the results.}
 
 \item{...}{For future extension}
 }
