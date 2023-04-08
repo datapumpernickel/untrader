@@ -11,14 +11,14 @@ build_comtrade_request <- function(params,
                                    primary_token = get_primary_comtrade_key()) {
   query_params <- params$query_params
 
-  freq <- params$url_params$freq
+  trade_direction <- params$url_params$trade_direction
 
-  clCode <- params$url_params$clCode
+  commodity_classification <- params$url_params$commodity_classification
 
   res <-
     httr2::request("https://comtradeapi.un.org/data/v1/get/C") |>
-    httr2::req_url_path_append(freq) |>
-    httr2::req_url_path_append(clCode) |>
+    httr2::req_url_path_append(trade_direction) |>
+    httr2::req_url_path_append(commodity_classification) |>
     httr2::req_headers(`Ocp-Apim-Subscription-Key` = primary_token) |>
     httr2::req_url_query(!!!query_params)
 

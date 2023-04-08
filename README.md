@@ -40,12 +40,12 @@ library(stringr)
 ## you need to set your API key first
 # set_primary_comtrade_key()
 
-exports <- get_comtrade_data(freq = 'A',
-                   clCode = 'HS',
-                   cmdCode = c('2204','2203'),
-                   flowCode = 'export',
-                   reporterCode = c("ARG","GBR"),
-                   partnerCode = 'world',
+exports <- get_comtrade_data(trade_direction = 'A',
+                   commodity_classification = 'HS',
+                   commodity_code = c('2204','2203'),
+                   flow_direction = 'export',
+                   reporter = c("ARG","GBR"),
+                   partner = 'world',
                    period = "2018:2021",
                   process = T)
 

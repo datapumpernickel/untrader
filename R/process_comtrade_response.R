@@ -13,7 +13,7 @@ process_comtrade_response <- function(resp) {
         untrader::HS |>
           poorman::rename(cmd_description = text) |>
           poorman::select(cmd_description, id),
-        by = c("cmdCode" = 'id')
+        by = c("commodity_code" = 'id')
       ) |>
       poorman::left_join(
         untrader::PARTNER |>
@@ -22,7 +22,7 @@ process_comtrade_response <- function(resp) {
             partner_description = PartnerDesc,
             id
           ),
-        by = c("partnerCode" = 'id')
+        by = c("partner" = 'id')
       ) |>
       poorman::left_join(
         untrader::REPORTER |>
@@ -31,7 +31,7 @@ process_comtrade_response <- function(resp) {
             reporter_description = reporterDesc,
             id
           ),
-        by = c("reporterCode" = 'id')
+        by = c("reporter" = 'id')
       )
     return(result)
   } else {

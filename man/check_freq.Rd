@@ -4,10 +4,10 @@
 \alias{check_freq}
 \title{Check frequency code}
 \usage{
-check_freq(freq)
+check_freq(trade_direction)
 }
 \arguments{
-\item{freq}{A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".}
+\item{trade_direction}{A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".}
 }
 \value{
 A character string specifying the frequency of the data.

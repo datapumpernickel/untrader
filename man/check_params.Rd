@@ -5,28 +5,28 @@
 \title{check_params}
 \usage{
 check_params(
-  freq = "A",
-  clCode = "HS",
-  cmdCode = NULL,
-  flowCode = NULL,
-  reporterCode = NULL,
-  partnerCode = NULL,
+  trade_direction = "A",
+  commodity_classification = "HS",
+  commodity_code = NULL,
+  flow_direction = NULL,
+  reporter = NULL,
+  partner = NULL,
   period = NULL,
   ...
 )
 }
 \arguments{
-\item{freq}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
+\item{trade_direction}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
 
-\item{clCode}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
+\item{commodity_classification}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
 
-\item{cmdCode}{The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.}
+\item{commodity_code}{The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.}
 
-\item{flowCode}{The direction of flows, e.g. whether you would like to get data on reported imports or exports.}
+\item{flow_direction}{The direction of flows, e.g. whether you would like to get data on reported imports or exports.}
 
-\item{reporterCode}{This has to be a character vector specifying the reporter, so the country whose data you would like to query.}
+\item{reporter}{This has to be a character vector specifying the reporter, so the country whose data you would like to query.}
 
-\item{partnerCode}{This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.}
+\item{partner}{This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.}
 
 \item{period}{This has to be a character vector specifying the year of interest.}
 
