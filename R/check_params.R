@@ -358,7 +358,7 @@ get_date_range <- function(start_date, end_date, frequency) {
     # Date range when freq is "annual" (date range by year).
     start_date <- convert_to_date(date_obj = start_date)
     end_date <- convert_to_date(date_obj = end_date)
-    date_range <- seq.Date(start_date, end_date, by = "year") %>%
+    date_range <- seq.Date(start_date, end_date, by = "year") |>
       format(format = "%Y")
   } else if (frequency == "M") {
     # Date range when freq is "monthly".
@@ -376,7 +376,7 @@ get_date_range <- function(start_date, end_date, frequency) {
       # If neither start_date nor end_date are years, get date range by month.
       start_date <- convert_to_date(start_date)
       end_date <- convert_to_date(end_date)
-      date_range <- seq.Date(start_date, end_date, by = "month") %>%
+      date_range <- seq.Date(start_date, end_date, by = "month") |>
         format(format = "%Y%m")
     } else {
       # Between start_date and end_date, if one is a year and the other isn't,
