@@ -10,8 +10,9 @@
 #' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "M" for imports, "X" for exports. Multiple values can be supplied as a comma separated string.
 #' @param reporter This has to be a character vector specifying the reporter in the iso3c format. The reporter is the country that supplied the data to the UN. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)
 #' @param partner This has to be a character vector specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
-#' @param period This has to be a character vector specifying the year of interest. Multiple values can be supplied as a comma separated string.
 #' @param process Whether to return the raw httr2 request or a dataframe with the results.
+#' @param start_date Start date of a time period.
+#' @param end_date End date of a time period.
 #' @param verbose whether the function sends status updates to the console
 #'
 #' @param ... For future extension
@@ -34,7 +35,8 @@ get_comtrade_data <- function(frequency = 'A',
                               flow_direction = NULL,
                               reporter = NULL,
                               partner = NULL,
-                              period = NULL,
+                              start_date = NULL,
+                              end_date = NULL,
                               process = T,
                               verbose = F,
                               ...) {
@@ -46,7 +48,8 @@ get_comtrade_data <- function(frequency = 'A',
     flow_direction = flow_direction,
     partner = partner,
     reporter = reporter,
-    period = period,
+    start_date = start_date,
+    end_date = end_date,
     verbose = verbose,
     ...
   )

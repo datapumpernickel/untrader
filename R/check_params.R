@@ -6,9 +6,9 @@
 #' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports.
 #' @param reporter This has to be a character vector specifying the reporter, so the country whose data you would like to query.
 #' @param partner This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.
-#' @param period This has to be a character vector specifying the year of interest.
 #' @param verbose whether the function sends status updates to the console
-#'
+#' @param start_date Start date of a time period.
+#' @param end_date End date of a time period.
 #' @param ... For future extension
 #'
 #' @return returns a list of named parameters for building a request
@@ -18,7 +18,8 @@ check_params <- function(frequency = 'A',
                          flow_direction = NULL,
                          reporter = NULL,
                          partner = NULL,
-                         period = NULL,
+                         start_date = NULL,
+                         end_date= NULL,
                          verbose = F,
                          ...) {
 
@@ -52,7 +53,7 @@ check_params <- function(frequency = 'A',
     cli::cli_inform(c("v" = "Checked validity of partner."))
   }
 
-  period <- check_period(period)
+  period <- get_date_range(start_date, end_date, frequency)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of period."))
   }
@@ -68,6 +69,7 @@ check_params <- function(frequency = 'A',
       period = period,
       motCode = '0',
       partner2Code = '0',
+      customsCode ='C00',
       ...
     ),
     url_params = list(freq = frequency,
@@ -306,49 +308,130 @@ check_partnerCode <- function(partner) {
 
 
 
-#' Check if period is valid and return a comma-separated string of periods
-#'
-#' @param period A period reference as an integer or character vector or a range as "start:end".
-#'
-#' @return A comma-separated string of periods.
-#'
-#' @examplesIf interactive()
-#' check_period(1999:2002)
-#' check_period(c('1999', '2020'))
-#' check_period('2021')
-#'
-#' @export
-check_period <- function(period) {
-  # check that period code is not null
-  if (is.null(period)) {
-    rlang::abort("You need to provide at least one period reference.")
-  }
+# check_period <- function(period) {
+#   # check that period code is not null
+#   if (is.null(period)) {
+#     rlang::abort("You need to provide at least one period reference.")
+#   }
+#
+#   # check if input is a range (e.g. "1999:2002")
+#   if (length(period) == 1 && stringr::str_detect(period, ":")) {
+#    range <- stringr::str_split_1(period, ":") |> as.numeric()
+#
+#   if (length(range) != 2 || !is.numeric(range)) {
+#       rlang::abort("Invalid period range.")
+#     }
+#    if(any(is.na(range))){
+#      rlang::abort("Must provide numbers as input")
+#    }
+#     period <- as.character(seq(from = as.numeric(range[1]), to = as.numeric(range[2])))
+#   } else {
+#     period <- as.character(period)
+#   }
+#
+#
+#   # remove any whitespace from period values
+#   period <- stringr::str_squish(period)
+#
+#   # check if valid period and type
+#   if (!all(stringr::str_detect(period, "^[0-9]+$"))) {
+#     rlang::abort("Invalid period value(s).")
+#   }
+#
+#   # create proper format for periods
+#   period <- paste(period, collapse = ",")
+#   return(period)
+# }
 
-  # check if input is a range (e.g. "1999:2002")
-  if (length(period) == 1 && stringr::str_detect(period, ":")) {
-   range <- stringr::str_split_1(period, ":") |> as.numeric()
 
-  if (length(range) != 2 || !is.numeric(range)) {
-      rlang::abort("Invalid period range.")
+## the get date range function was taken from https://github.com/ropensci/comtradr/blob/master/tests/testthat/test-ct_search.R
+
+#' Get Date Range
+#'
+#' @return Date range as a single string, comma sep.
+#' @noRd
+get_date_range <- function(start_date, end_date, frequency) {
+  start_date <- as.character(start_date)
+  end_date <- as.character(end_date)
+
+  if (frequency == "A") {
+    # Date range when freq is "annual" (date range by year).
+    start_date <- convert_to_date(date_obj = start_date)
+    end_date <- convert_to_date(date_obj = end_date)
+    date_range <- seq.Date(start_date, end_date, by = "year") %>%
+      format(format = "%Y")
+  } else if (frequency == "M") {
+    # Date range when freq is "monthly".
+    sd_year <- is_year(start_date)
+    ed_year <- is_year(end_date)
+    if (sd_year && ed_year) {
+      # If start_date and end_date are both years ("yyyy") and are identical,
+      # return the single year as the date range.
+      if (identical(start_date, end_date)) {
+        return(start_date)
+      } else {
+        rlang::abort("Cannot get more than a single year's worth of monthly data in a single query")
+      }
+    } else if (!sd_year && !ed_year) {
+      # If neither start_date nor end_date are years, get date range by month.
+      start_date <- convert_to_date(start_date)
+      end_date <- convert_to_date(end_date)
+      date_range <- seq.Date(start_date, end_date, by = "month") %>%
+        format(format = "%Y%m")
+    } else {
+      # Between start_date and end_date, if one is a year and the other isn't,
+      # throw an error.
+      rlang::abort("If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format")
     }
-   if(any(is.na(range))){
-     rlang::abort("Must provide numbers as input")
-   }
-    period <- as.character(seq(from = as.numeric(range[1]), to = as.numeric(range[2])))
+  }
+
+  # If the derived date range is longer than five elements, throw an error.
+  if (length(date_range) > 12) {
+    stop("If specifying years/months, cannot search more than five consecutive years/months in a single query")
+  }
+
+  return(paste(date_range, collapse = ","))
+}
+
+
+#' Given a numeric or character date, convert to an object with class "Date".
+#'
+#' @return Object of class "Date" (using base::as.Date()).
+#' @noRd
+convert_to_date <- function(date_obj) {
+  # Convert to Date.
+  if (is_year(x = date_obj)) {
+    date_obj <- as.Date(paste0(date_obj, "-01-01"), format = "%Y-%m-%d")
+  } else if (is_year_month(x = date_obj)) {
+    date_obj <- as.Date(paste0(date_obj, "-01"), format = "%Y-%m-%d")
   } else {
-    period <- as.character(period)
+    date_obj <- as.Date(date_obj, format = "%Y-%m-%d")
+  }
+  # If conversion to Date failed, throw error.
+  if (is.na(date_obj)) {
+    rlang::abort(
+      paste("arg must be a date with one of these formats:\n",
+            "int: yyyy\n",
+            "char: 'yyyy'\n",
+            "char: 'yyyy-mm'\n",
+            "char: 'yyyy-mm-dd'"))
   }
 
+  return(date_obj)
+}
 
-  # remove any whitespace from period values
-  period <- stringr::str_squish(period)
 
-  # check if valid period and type
-  if (!all(stringr::str_detect(period, "^[0-9]+$"))) {
-    rlang::abort("Invalid period value(s).")
-  }
+#' Is input a year string or not.
+#'
+#' @noRd
+is_year <- function(x) {
+  grepl("^\\d{4}$", x)
+}
 
-  # create proper format for periods
-  period <- paste(period, collapse = ",")
-  return(period)
+
+#' Is input a year-month string or not.
+#'
+#' @noRd
+is_year_month <- function(x) {
+  grepl("^\\d{4}-\\d{2}", x)
 }

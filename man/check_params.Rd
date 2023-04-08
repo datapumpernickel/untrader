@@ -11,7 +11,8 @@ check_params(
   flow_direction = NULL,
   reporter = NULL,
   partner = NULL,
-  period = NULL,
+  start_date = NULL,
+  end_date = NULL,
   verbose = F,
   ...
 )
@@ -29,7 +30,9 @@ check_params(
 
 \item{partner}{This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.}
 
-\item{period}{This has to be a character vector specifying the year of interest.}
+\item{start_date}{Start date of a time period.}
+
+\item{end_date}{End date of a time period.}
 
 \item{verbose}{whether the function sends status updates to the console}
 
