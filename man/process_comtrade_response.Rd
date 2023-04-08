@@ -5,7 +5,7 @@
 \title{process_comtrade_response
 The function adds the respective iso codes for the reporter and partner countries, as well as the commodity code description.}
 \usage{
-process_comtrade_response(resp)
+process_comtrade_response(resp, verbose = verbose)
 }
 \arguments{
 \item{resp}{a valid httr2 response object created from the function `perform_comtrade_request`}

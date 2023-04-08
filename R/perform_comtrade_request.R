@@ -6,12 +6,20 @@
 #'
 #' @return json data from comtrade and possible error codes
 perform_comtrade_request <-
-  function(req, requests_per_second = 10 / 60) {
+  function(req, requests_per_second = 10 / 60, verbose = verbose) {
+
+    if (verbose) {
+      cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried"))
+    }
+
     resp <- req |>
       httr2::req_error(body = comtrade_error_body) |>
       httr2::req_throttle(rate = requests_per_second) |>
       httr2::req_perform()
 
+    if (verbose) {
+      cli::cli_inform(c("v" = "Got a response object from Comtrade. Use `process = F` if there is an error after this step to find issues with the response object."))
+    }
     return(resp)
   }
 

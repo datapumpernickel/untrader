@@ -4,7 +4,11 @@
 \alias{build_comtrade_request}
 \title{build_comtrade_request}
 \usage{
-build_comtrade_request(params, primary_token = get_primary_comtrade_key())
+build_comtrade_request(
+  params,
+  primary_token = get_primary_comtrade_key(),
+  verbose = F
+)
 }
 \arguments{
 \item{params}{a named vector of parameters for the comtrade request}

@@ -1,6 +1,6 @@
 #' check_params
 #'
-#' @param trade_direction The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
+#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
 #' @param commodity_classification The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
 #' @param commodity_code The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.
 #' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports.
@@ -11,36 +11,66 @@
 #' @param ... For future extension
 #'
 #' @return returns a list of named parameters for building a request
-check_params <- function(trade_direction = 'A',
+check_params <- function(frequency = 'A',
                          commodity_classification = 'HS',
                          commodity_code = NULL,
                          flow_direction = NULL,
                          reporter = NULL,
                          partner = NULL,
                          period = NULL,
+                         verbose = F,
                          ...) {
 
-  trade_direction <- check_freq(trade_direction)
+  frequency <- check_freq(frequency)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of frequency!"))
+  }
+
   commodity_classification <- check_clCode(commodity_classification)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of commodity_classification."))
+  }
+
   flow_direction <- check_flowCode(flow_direction)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of flow_direction."))
+  }
+
   commodity_code <- check_cmdCode(commodity_code)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of commodity_code."))
+  }
+
   reporter <- check_reporterCode(reporter)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of reporter."))
+  }
+
   partner <- check_partnerCode(partner)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of partner."))
+  }
+
   period <- check_period(period)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of period."))
+  }
+
+
 
   params <- list(
     query_params = list(
-      commodity_code = commodity_code,
-      flow_direction = flow_direction,
-      partner = partner,
-      reporter = reporter,
+      cmdCode = commodity_code,
+      flowCode = flow_direction,
+      partnerCode = partner,
+      reporterCode = reporter,
       period = period,
       motCode = '0',
       partner2Code = '0',
       ...
     ),
-    url_params = list(trade_direction = trade_direction,
-                      commodity_classification = commodity_classification)
+    url_params = list(freq = frequency,
+                      clCode = commodity_classification)
   )
 
   return(params)
@@ -48,7 +78,7 @@ check_params <- function(trade_direction = 'A',
 
 #' Check frequency code
 #'
-#' @param trade_direction A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".
+#' @param frequency A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".
 #'
 #' @return A character string specifying the frequency of the data.
 #'
@@ -57,9 +87,9 @@ check_params <- function(trade_direction = 'A',
 #' check_freq("Q") # returns "Q"
 #' check_freq("M") # returns "M"
 #' check_freq("D") # throws an error because "D" is not a valid frequency code
-check_freq <- function(trade_direction) {
-  rlang::arg_match(trade_direction, values = c('A', "Q", "M"))
-  return(trade_direction)
+check_freq <- function(frequency) {
+  rlang::arg_match(frequency, values = c('A', "Q", "M"))
+  return(frequency)
 }
 
 

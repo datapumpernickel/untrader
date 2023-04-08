@@ -5,18 +5,19 @@
 \title{check_params}
 \usage{
 check_params(
-  trade_direction = "A",
+  frequency = "A",
   commodity_classification = "HS",
   commodity_code = NULL,
   flow_direction = NULL,
   reporter = NULL,
   partner = NULL,
   period = NULL,
+  verbose = F,
   ...
 )
 }
 \arguments{
-\item{trade_direction}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
+\item{frequency}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
 
 \item{commodity_classification}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
 

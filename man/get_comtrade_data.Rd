@@ -5,7 +5,7 @@
 \title{get_comtrade_data}
 \usage{
 get_comtrade_data(
-  trade_direction = "A",
+  frequency = "A",
   commodity_classification = "HS",
   commodity_code = NULL,
   flow_direction = NULL,
@@ -13,11 +13,12 @@ get_comtrade_data(
   partner = NULL,
   period = NULL,
   process = T,
+  verbose = F,
   ...
 )
 }
 \arguments{
-\item{trade_direction}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
+\item{frequency}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
 
 \item{commodity_classification}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
 
@@ -43,7 +44,7 @@ get_comtrade_data
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_comtrade_data(trade_direction = 'A',
+get_comtrade_data(frequency = 'A',
 commodity_classification = 'HS',
 commodity_code = c('2204','2203'),
 flow_direction = 'export',

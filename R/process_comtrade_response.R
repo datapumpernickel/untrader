@@ -3,7 +3,7 @@
 #' @param resp a valid httr2 response object created from the function `perform_comtrade_request`
 #'
 #' @return a data.frame object with the results
-process_comtrade_response <- function(resp) {
+process_comtrade_response <- function(resp, verbose = verbose) {
   result <- resp |>
     httr2::resp_body_json(simplifyVector = T)
 
@@ -13,7 +13,7 @@ process_comtrade_response <- function(resp) {
         untrader::HS |>
           poorman::rename(cmd_description = text) |>
           poorman::select(cmd_description, id),
-        by = c("commodity_code" = 'id')
+        by = c("cmdCode" = 'id')
       ) |>
       poorman::left_join(
         untrader::PARTNER |>
@@ -22,7 +22,7 @@ process_comtrade_response <- function(resp) {
             partner_description = PartnerDesc,
             id
           ),
-        by = c("partner" = 'id')
+        by = c("partnerCode" = 'id')
       ) |>
       poorman::left_join(
         untrader::REPORTER |>
@@ -31,8 +31,14 @@ process_comtrade_response <- function(resp) {
             reporter_description = reporterDesc,
             id
           ),
-        by = c("reporter" = 'id')
+        by = c("reporterCode" = 'id')
       )
+
+    if(nrow(result)>249999){
+        rlang::abort('Your request returns more than 250k rows. This means that most likely not all the data you queried has been returned, as the upper limit is 250k. Please partition your API call, e.g. by using only half the period in the first call.')
+    } else if(nrow(result)>200000){
+        cli::cli_inform(c("i" = "Your request has passed 200k rows. If you exceed 250k rows Comtrade will not return all data. You will have to slice your request in smaller parts."))
+    }
     return(result)
   } else {
     return(data.frame(count = 0))

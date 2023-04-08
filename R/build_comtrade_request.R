@@ -8,19 +8,24 @@
 #' @param primary_token Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function
 #' @return a httr2 request object
 build_comtrade_request <- function(params,
-                                   primary_token = get_primary_comtrade_key()) {
+                                   primary_token = get_primary_comtrade_key(),
+                                   verbose = F) {
   query_params <- params$query_params
 
-  trade_direction <- params$url_params$trade_direction
+  freq <- params$url_params$freq
 
-  commodity_classification <- params$url_params$commodity_classification
+  clCode <- params$url_params$clCode
 
   res <-
     httr2::request("https://comtradeapi.un.org/data/v1/get/C") |>
-    httr2::req_url_path_append(trade_direction) |>
-    httr2::req_url_path_append(commodity_classification) |>
+    httr2::req_url_path_append(freq) |>
+    httr2::req_url_path_append(clCode) |>
     httr2::req_headers(`Ocp-Apim-Subscription-Key` = primary_token) |>
     httr2::req_url_query(!!!query_params)
+
+  if (verbose) {
+    cli::cli_inform(c("i" = paste0("URL that will be queried: ",res$url)))
+  }
 
   return(res)
 }

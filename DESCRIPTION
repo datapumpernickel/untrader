@@ -17,6 +17,7 @@ Imports:
     stringr,
     testthat,
     askpass,
-    poorman
+    poorman,
+    cli
 Depends: 
     R (>= 2.10)

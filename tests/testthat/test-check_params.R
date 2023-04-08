@@ -1,5 +1,5 @@
 test_that("test that invalid commodity_code is detected", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = "123",
                                       flow_direction = 'import',
@@ -9,7 +9,7 @@ test_that("test that invalid commodity_code is detected", {
 })
 
 test_that("test that invalid commodity_code in csv is detected and returned", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = c("blabla","01"),
                                       flow_direction = 'import',
@@ -19,7 +19,7 @@ test_that("test that invalid commodity_code in csv is detected and returned", {
 })
 
 test_that("test that at least one cmdcode is provided", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = NULL,
                                       flow_direction = 'import',
@@ -29,7 +29,7 @@ test_that("test that at least one cmdcode is provided", {
 })
 
 test_that("test that invalid reporter is detected", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = "01",
                                       flow_direction = 'import',
@@ -39,7 +39,7 @@ test_that("test that invalid reporter is detected", {
 })
 
 test_that("test that invalid reporter in csv is detected and returned", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = "01",
                                       flow_direction = 'import',
@@ -49,7 +49,7 @@ test_that("test that invalid reporter in csv is detected and returned", {
 })
 
 test_that("test that at least one reporter is provided", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = '01',
                                       flow_direction = 'import',
@@ -59,7 +59,7 @@ test_that("test that at least one reporter is provided", {
 })
 
 test_that("test that invalid partner is detected", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = "01",
                                       flow_direction = 'import',
@@ -69,7 +69,7 @@ test_that("test that invalid partner is detected", {
 })
 
 test_that("test that invalid partner in csv is detected and returned", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = "01",
                                       flow_direction = 'import',
@@ -79,7 +79,7 @@ test_that("test that invalid partner in csv is detected and returned", {
 })
 
 test_that("test that at least one partner is provided", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = '01',
                                       flow_direction = 'import',
@@ -89,7 +89,7 @@ test_that("test that at least one partner is provided", {
 })
 
 test_that("test that wrong flowcode is found", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = '01',
                                       flow_direction = c('M','import'),
@@ -99,7 +99,7 @@ test_that("test that wrong flowcode is found", {
 })
 
 test_that("test that wrong flowcode is found", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = '01',
                                       flow_direction = c('M','import'),
@@ -109,7 +109,7 @@ test_that("test that wrong flowcode is found", {
 })
 
 test_that("test that flowcode cannot be null", {
-  testthat::expect_error(check_params(trade_direction = 'A',
+  testthat::expect_error(check_params(frequency = 'A',
                                       commodity_classification = 'HS',
                                       commodity_code = '01',
                                       flow_direction = NULL,
@@ -121,12 +121,12 @@ test_that("test that flowcode cannot be null", {
 test_that("check_params returns a list of parameters if all inputs are valid", {
   params <- check_params(commodity_code = "01", flow_direction = "import", reporter = "USA", partner = "CAN", period = "2022")
   expect_named(params, c("query_params", "url_params"))
-  expect_named(params[[2]], c("trade_direction", "commodity_classification"))
-  expect_named(params[[1]], c("commodity_code", "flow_direction", "partner", "reporter",'period','motCode','partner2Code'))
-  expect_equal(params[[1]]$commodity_code, "01")
-  expect_equal(params[[1]]$flow_direction, "M")
-  expect_equal(params[[1]]$reporter, "842,841")
-  expect_equal(params[[1]]$partner, "124")
+  expect_named(params[[2]], c("freq", "clCode"))
+  expect_named(params[[1]], c("cmdCode", "flowCode", "partnerCode", "reporterCode",'period','motCode','partner2Code'))
+  expect_equal(params[[1]]$cmdCode, "01")
+  expect_equal(params[[1]]$flowCode, "M")
+  expect_equal(params[[1]]$reporterCode, "842,841")
+  expect_equal(params[[1]]$partnerCode, "124")
   expect_equal(params[[1]]$period, "2022")
 })
 
@@ -142,17 +142,17 @@ test_that("check_params() creates proper ids for reporter 'USA'", {
 
 test_that("check_params() creates proper ids for partner 'all'", {
   params <- check_params(commodity_code = "01", flow_direction = "import", partner = "all", period = "2022",reporter = 'USA')
-  expect_equal(params[[1]]$partner, paste0(untrader::PARTNER$id[!untrader::PARTNER$isGroup], collapse = ','))
+  expect_equal(params[[1]]$partnerCode, paste0(untrader::PARTNER$id[!untrader::PARTNER$isGroup], collapse = ','))
 })
 
 test_that("check_params() creates proper ids for partner 'world'", {
   params <- check_params(commodity_code = "01", flow_direction = "import", partner = "world", period = "2022",reporter = 'USA')
-  expect_equal(params[[1]]$partner, '0')
+  expect_equal(params[[1]]$partnerCode, '0')
 })
 
 test_that("check_params() creates proper ids for partner 'USA'", {
   params <- check_params(commodity_code = "01", flow_direction = "import", partner = "USA", period = "2022",reporter = 'USA')
-  expect_equal(params[[1]]$partner, untrader::PARTNER$id[untrader::PARTNER$PartnerCodeIsoAlpha3 == 'USA' & !untrader::PARTNER$isGroup] |> paste0(collapse=','))
+  expect_equal(params[[1]]$partnerCode, untrader::PARTNER$id[untrader::PARTNER$PartnerCodeIsoAlpha3 == 'USA' & !untrader::PARTNER$isGroup] |> paste0(collapse=','))
 })
 
 test_that("check_params() creates proper ids for multiple partnerCodes", {
@@ -161,7 +161,7 @@ test_that("check_params() creates proper ids for multiple partnerCodes", {
                          partner = c("USA","CAN"),
                          period = "2022",
                          reporter = 'USA')
-  expect_equal(params[[1]]$partner, paste0(untrader::PARTNER$id[untrader::PARTNER$PartnerCodeIsoAlpha3 %in% c('USA', 'CAN') & !untrader::PARTNER$isGroup], collapse = ','))
+  expect_equal(params[[1]]$partnerCode, paste0(untrader::PARTNER$id[untrader::PARTNER$PartnerCodeIsoAlpha3 %in% c('USA', 'CAN') & !untrader::PARTNER$isGroup], collapse = ','))
 })
 
 
@@ -176,7 +176,7 @@ test_that("check_params() all can only be provided as single argument reporterCo
 
 test_that("check_params() creates proper ids for multiple flowCodes", {
   params <- check_params(commodity_code = "01", flow_direction = c('re-import','import'), partner = "USA", period = "2022",reporter = 'USA')
-  expect_equal(params[[1]]$flow_direction, 'RM,M')
+  expect_equal(params[[1]]$flowCode, 'RM,M')
 })
 
 test_that("check_params() creates error for multiple values with 'all'", {
@@ -185,7 +185,7 @@ test_that("check_params() creates error for multiple values with 'all'", {
 
 test_that("check_params() creates proper ids for flow_direction 'all'", {
   params <- check_params(commodity_code = "01", flow_direction = c('all'), partner = "USA", period = "2022",reporter = 'USA')
-  expect_equal(params[[1]]$flow_direction, 'M,X,RM,RX')
+  expect_equal(params[[1]]$flowCode, 'M,X,RM,RX')
 })
 
 test_that("check_period returns comma-separated string when passed a vector of integers", {

@@ -4,7 +4,7 @@
 
 #' get_comtrade_data
 #'
-#' @param trade_direction The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
+#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
 #' @param commodity_classification The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
 #' @param commodity_code The commodity code that you would like to investigate. The default value is NULL. Multiple values can be supplied as a comma separated string.
 #' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "M" for imports, "X" for exports. Multiple values can be supplied as a comma separated string.
@@ -15,7 +15,7 @@
 #' @param ... For future extension
 #'
 #' @examplesIf interactive()
-#' get_comtrade_data(trade_direction = 'A',
+#' get_comtrade_data(frequency = 'A',
 #' commodity_classification = 'HS',
 #' commodity_code = c('2204','2203'),
 #' flow_direction = 'export',
@@ -26,7 +26,7 @@
 #'
 #' @export
 #' @return returns a list of named parameters for building a request
-get_comtrade_data <- function(trade_direction = 'A',
+get_comtrade_data <- function(frequency = 'A',
                               commodity_classification = 'HS',
                               commodity_code = NULL,
                               flow_direction = NULL,
@@ -34,25 +34,27 @@ get_comtrade_data <- function(trade_direction = 'A',
                               partner = NULL,
                               period = NULL,
                               process = T,
+                              verbose = F,
                               ...) {
   ## compile codes
   params <- check_params(
-    trade_direction = trade_direction,
+    frequency = frequency,
     commodity_classification = commodity_classification,
     commodity_code = commodity_code,
     flow_direction = flow_direction,
     partner = partner,
     reporter = reporter,
     period = period,
+    verbose = verbose,
     ...
   )
 
-  req <- build_comtrade_request(params)
+  req <- build_comtrade_request(params, verbose = verbose)
 
-  resp <- perform_comtrade_request(req)
+  resp <- perform_comtrade_request(req, verbose = verbose)
 
   if (process) {
-    result <- process_comtrade_response(resp)
+    result <- process_comtrade_response(resp, verbose = verbose)
     return(result)
   } else{
     return(resp)
