@@ -1,3 +1,51 @@
+#' check_params
+#'
+#' @param freq The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
+#' @param clCode The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
+#' @param cmdCode The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.
+#' @param flowCode The direction of flows, e.g. whether you would like to get data on reported imports or exports.
+#' @param reporterCode This has to be a character vector specifying the reporter, so the country whose data you would like to query.
+#' @param partnerCode This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.
+#' @param period This has to be a character vector specifying the year of interest.
+#'
+#' @param ... For future extension
+#'
+#' @return returns a list of named parameters for building a request
+check_params <- function(freq = 'A',
+                         clCode = 'HS',
+                         cmdCode = NULL,
+                         flowCode = NULL,
+                         reporterCode = NULL,
+                         partnerCode = NULL,
+                         period = NULL,
+                         ...) {
+
+  freq <- check_freq(freq)
+  clCode <- check_clCode(clCode)
+  flowCode <- check_flowCode(flowCode)
+  cmdCode <- check_cmdCode(cmdCode)
+  reporterCode <- check_reporterCode(reporterCode)
+  partnerCode <- check_partnerCode(partnerCode)
+  period <- check_period(period)
+
+  params <- list(
+    query_params = list(
+      cmdCode = cmdCode,
+      flowCode = flowCode,
+      partnerCode = partnerCode,
+      reporterCode = reporterCode,
+      period = period,
+      motCode = '0',
+      partner2Code = '0',
+      ...
+    ),
+    url_params = list(freq = freq,
+                      clCode = clCode)
+  )
+
+  return(params)
+}
+
 #' Check frequency code
 #'
 #' @param freq A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".
@@ -247,14 +295,19 @@ check_period <- function(period) {
 
   # check if input is a range (e.g. "1999:2002")
   if (length(period) == 1 && stringr::str_detect(period, ":")) {
-    range <- stringr::str_split_1(period, ":") |> as.numeric()
-    if (length(range) != 2 || !is.numeric(range)) {
+   range <- stringr::str_split_1(period, ":") |> as.numeric()
+
+  if (length(range) != 2 || !is.numeric(range)) {
       rlang::abort("Invalid period range.")
     }
+   if(any(is.na(range))){
+     rlang::abort("Must provide numbers as input")
+   }
     period <- as.character(seq(from = as.numeric(range[1]), to = as.numeric(range[2])))
   } else {
     period <- as.character(period)
   }
+
 
   # remove any whitespace from period values
   period <- stringr::str_squish(period)

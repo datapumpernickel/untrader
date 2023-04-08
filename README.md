@@ -35,11 +35,11 @@ library(untrader)
 
 exports <- get_comtrade_data(freq = 'A',
                    clCode = 'HS',
-                   cmdCode = '2204,2203',
-                   flowCode = 'X',
-                   reporterCode = "ARG,GBR",
+                   cmdCode = c('2204','2203'),
+                   flowCode = 'export',
+                   reporterCode = c("ARG","GBR"),
                    partnerCode = 'world',
-                   period = "2018,2019,2020,2021",
+                   period = "2018:2021",
                   process = T)
 
 ggplot2::ggplot(exports) +
@@ -60,9 +60,6 @@ ggplot2::ggplot(exports) +
 <img src="man/figures/README-example-1.png" width="100%" />
 
 ## Next steps
-
-- [ ] Implement tests for unchecked arguments, such as period, motCode
-  and the frequency.
 
 - [ ] Implement the different modes of transportation
 
