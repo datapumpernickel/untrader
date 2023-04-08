@@ -12,8 +12,11 @@ Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-chec
 The goal of untrader is to provide a simple wrapper function for the new
 [Comtrade API of the UN](https://comtradeplus.un.org/).
 
-The package is currently under development, please be careful when
-interpreting results from the API.
+## 🚧 Under development 🚧
+
+## 🤗 Looking for help 🤗
+
+### Let me know, if you would like to be part of the developing process and help maintain the package!
 
 ## Installation
 
@@ -63,5 +66,4 @@ ggplot2::ggplot(exports) +
 
 - [ ] Implement the different modes of transportation
 
-- [ ] Properly document all functions, including some more links to the
-  UN Comtrade API FAQ.
+- [ ] Include some more links to the UN Comtrade API FAQ.
