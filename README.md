@@ -10,11 +10,13 @@ Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-chec
 <!-- badges: end -->
 
 The goal of untrader is to provide a simple wrapper function for the new
-[Comtrade API of the UN](https://comtradeplus.un.org/).
+[Comtrade API of the UN](https://comtradeplus.un.org/). The legacy API
+was very nicely wrapped in the
+[comtradr](https://github.com/ropensci/comtradr) package. Since there
+have been extensive changes to the API, I have decided to have a clean
+start with a new wrapper for the new API.
 
-## 🚧 Under development 🚧
-
-## 🤗 Looking for help 🤗
+## 🚧 Under development - Looking for help 🤗
 
 ### Let me know, if you would like to be part of the developing process and help maintain the package!
 
@@ -32,6 +34,8 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(untrader)
+library(ggplot2)
+library(stringr)
 
 ## you need to set your API key first
 # set_primary_comtrade_key()
@@ -45,25 +49,28 @@ exports <- get_comtrade_data(freq = 'A',
                    period = "2018:2021",
                   process = T)
 
-ggplot2::ggplot(exports) +
-  ggplot2::geom_col(ggplot2::aes(
+ggplot(exports) +
+  geom_col(aes(
     x = period,
     y = primaryValue / 1000000,
-    fill = stringr::str_wrap(cmd_description,30)
+    fill = str_wrap(cmd_description,30)
   ),
   position = 'dodge') +
-  ggplot2::facet_wrap(. ~ reporter_description) +
-  ggplot2::theme_minimal() +
-  ggplot2::scale_fill_manual(name = "HS Code", values = c('#F3B562','#F06060'))+
-  ggplot2::ylab("Exports in Million USD") +
-  ggplot2::xlab("Year") +
-  ggplot2::labs(title = 'Exports of Wine and Beer from Great Britain and Argentina')
+  facet_wrap(. ~ reporter_description) +
+  theme_minimal() +
+  scale_fill_manual(name = "HS Code", values = c('#F3B562','#F06060'))+
+  ylab("Exports in Million USD") +
+  xlab("Year") +
+  labs(title = 'Exports of Wine and Beer from Great Britain and Argentina')
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
 ## Next steps
 
-- [ ] Implement the different modes of transportation
+- [ ] Implement the different modes of transportation and different
+  commodity codes
+
+- [ ] Implement monthly frequency
 
 - [ ] Include some more links to the UN Comtrade API FAQ.
