@@ -41,3 +41,15 @@ returns a list of named parameters for building a request
 \description{
 get_comtrade_data
 }
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+get_comtrade_data(freq = 'A',
+clCode = 'HS',
+cmdCode = c('2204','2203'),
+flowCode = 'export',
+reporterCode = c("ARG","GBR"),
+partnerCode = 'world',
+period = "2018:2021",
+process = T)
+\dontshow{\}) # examplesIf}
+}
