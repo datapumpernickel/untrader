@@ -6,6 +6,9 @@
 #'@param params a named vector of parameters for the comtrade request
 #'
 #' @param primary_token Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function
+#'
+#' @param verbose whether the function sends status updates to the console
+#'
 #' @return a httr2 request object
 build_comtrade_request <- function(params,
                                    primary_token = get_primary_comtrade_key(),

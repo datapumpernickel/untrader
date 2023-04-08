@@ -9,6 +9,8 @@ process_comtrade_response(resp, verbose = verbose)
 }
 \arguments{
 \item{resp}{a valid httr2 response object created from the function `perform_comtrade_request`}
+
+\item{verbose}{whether the function sends status updates to the console}
 }
 \value{
 a data.frame object with the results

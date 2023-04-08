@@ -34,6 +34,8 @@ get_comtrade_data(
 
 \item{process}{Whether to return the raw httr2 request or a dataframe with the results.}
 
+\item{verbose}{whether the function sends status updates to the console}
+
 \item{...}{For future extension}
 }
 \value{

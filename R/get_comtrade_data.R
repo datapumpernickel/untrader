@@ -12,6 +12,8 @@
 #' @param partner This has to be a character vector specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
 #' @param period This has to be a character vector specifying the year of interest. Multiple values can be supplied as a comma separated string.
 #' @param process Whether to return the raw httr2 request or a dataframe with the results.
+#' @param verbose whether the function sends status updates to the console
+#'
 #' @param ... For future extension
 #'
 #' @examplesIf interactive()

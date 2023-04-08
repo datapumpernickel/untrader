@@ -31,6 +31,8 @@ check_params(
 
 \item{period}{This has to be a character vector specifying the year of interest.}
 
+\item{verbose}{whether the function sends status updates to the console}
+
 \item{...}{For future extension}
 }
 \value{

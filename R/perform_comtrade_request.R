@@ -4,6 +4,8 @@
 #' @param req a valid comtrade request built by the build_comtrade_request function
 #' @param requests_per_second rate at which throttling is done
 #'
+#' @param verbose whether the function sends status updates to the console
+#'
 #' @return json data from comtrade and possible error codes
 perform_comtrade_request <-
   function(req, requests_per_second = 10 / 60, verbose = verbose) {

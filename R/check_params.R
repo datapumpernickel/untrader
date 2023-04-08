@@ -7,6 +7,7 @@
 #' @param reporter This has to be a character vector specifying the reporter, so the country whose data you would like to query.
 #' @param partner This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.
 #' @param period This has to be a character vector specifying the year of interest.
+#' @param verbose whether the function sends status updates to the console
 #'
 #' @param ... For future extension
 #'

@@ -11,6 +11,8 @@ perform_comtrade_request(req, requests_per_second = 10/60, verbose = verbose)
 \item{req}{a valid comtrade request built by the build_comtrade_request function}
 
 \item{requests_per_second}{rate at which throttling is done}
+
+\item{verbose}{whether the function sends status updates to the console}
 }
 \value{
 json data from comtrade and possible error codes
