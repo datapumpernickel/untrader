@@ -2,12 +2,12 @@
 % Please edit documentation in R/check_params.R
 \name{check_reporterCode}
 \alias{check_reporterCode}
-\title{Check the validity of reporterCode}
+\title{Check the validity of reporter}
 \usage{
-check_reporterCode(reporterCode)
+check_reporterCode(reporter)
 }
 \arguments{
-\item{reporterCode}{A character vector or string of comma-separated codes that
+\item{reporter}{A character vector or string of comma-separated codes that
 represent the reporters in the trade data. The default value is NULL.}
 }
 \value{

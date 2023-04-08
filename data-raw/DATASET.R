@@ -20,7 +20,7 @@ REPORTER <-
   REPORTER$results[c(
     'id',
     'text',
-    'reporterCode',
+    'reporter',
     'reporterDesc',
     'reporterCodeIsoAlpha2',
     'reporterCodeIsoAlpha3',

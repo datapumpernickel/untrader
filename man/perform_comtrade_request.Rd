@@ -5,12 +5,14 @@
 \title{perform_comtrade_request
 Performs the request and returns an error body with the respective error returned by the Comtrade API. Also throttles all requests to 1 request per 6 seconds, or 10 requests per minute.}
 \usage{
-perform_comtrade_request(req, requests_per_second = 10/60)
+perform_comtrade_request(req, requests_per_second = 10/60, verbose = verbose)
 }
 \arguments{
 \item{req}{a valid comtrade request built by the build_comtrade_request function}
 
 \item{requests_per_second}{rate at which throttling is done}
+
+\item{verbose}{whether the function sends status updates to the console}
 }
 \value{
 json data from comtrade and possible error codes

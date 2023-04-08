@@ -4,10 +4,10 @@
 \alias{check_flowCode}
 \title{Check flow code}
 \usage{
-check_flowCode(flowCode)
+check_flowCode(flow_direction)
 }
 \arguments{
-\item{flowCode}{A character string or vector specifying the type of trade flow. Must be one or more of "import", "export", "re-export", "re-import", or "all".}
+\item{flow_direction}{A character string or vector specifying the type of trade flow. Must be one or more of "import", "export", "re-export", "re-import", or "all".}
 }
 \value{
 A character vector specifying the trade flow codes.

@@ -4,10 +4,10 @@
 \alias{check_clCode}
 \title{Check HS classification code}
 \usage{
-check_clCode(clCode)
+check_clCode(commodity_classification)
 }
 \arguments{
-\item{clCode}{A character string specifying the HS classification code. Must be "HS".}
+\item{commodity_classification}{A character string specifying the HS classification code. Must be "HS".}
 }
 \value{
 A character string specifying the HS classification code.

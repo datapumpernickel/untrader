@@ -4,12 +4,18 @@
 \alias{build_comtrade_request}
 \title{build_comtrade_request}
 \usage{
-build_comtrade_request(params, primary_token = get_primary_comtrade_key())
+build_comtrade_request(
+  params,
+  primary_token = get_primary_comtrade_key(),
+  verbose = F
+)
 }
 \arguments{
 \item{params}{a named vector of parameters for the comtrade request}
 
 \item{primary_token}{Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function}
+
+\item{verbose}{whether the function sends status updates to the console}
 }
 \value{
 a httr2 request object
