@@ -37,7 +37,7 @@ devtools::install_github('datapumpernickel/untrader')
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r message=T, example}
 library(untrader)
 library(ggplot2)
 library(stringr)
@@ -45,14 +45,18 @@ library(stringr)
 ## you need to set your API key first
 # set_primary_comtrade_key()
 
-exports <- get_comtrade_data(frequency = 'A',
+exports <- get_comtrade_data(frequency =  'A',
                    commodity_classification = 'HS',
                    commodity_code = c('2204','2203'),
                    flow_direction = 'export',
                    reporter = c("ARG","GBR"),
                    partner = 'world',
                    period = "2018:2021",
+                   verbose = T,
                   process = T)
+
+
+str(exports)
 
 ggplot(exports) +
   geom_col(aes(
