@@ -5,16 +5,16 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.">
-<title>This package implements the new comtrade api to query trade data from the UN in a very basic way • untrader</title>
+<meta name="description" content="The package provides a port to the Comtrade API, allowing the user to query trade data from the free endpoint for Goods. 
+    This does not implement the endpoint for services or the premium or bulk-download facilities. ">
+<title>Wrapping the Comtrade API for R • untrader</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="This package implements the new comtrade api to query trade data from the UN in a very basic way">
-<meta property="og:description" content="More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Wrapping the Comtrade API for R">
+<meta property="og:description" content="The package provides a port to the Comtrade API, allowing the user to query trade data from the free endpoint for Goods. 
+    This does not implement the endpoint for services or the premium or bulk-download facilities. ">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -57,14 +57,11 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of untrader is to provide a simple wrapper function for the new <a href="https://comtradeplus.un.org/" class="external-link">Comtrade API of the UN</a>. The legacy API was very nicely wrapped in the <a href="https://github.com/ropensci/comtradr" class="external-link">comtradr</a> package. Since there have been extensive changes to the API, I have decided to have a clean start with a new wrapper for the new API. However, a lot of the structure and set-up has been inspired from the <code>comtradr</code> package and one function (get_date_range() function) have been entirely copied over with minor changes.</p>
 <div class="section level2">
 <h2 id="id_-under-development---looking-for-help-">🚧 Under development - Looking for help 🤗<a class="anchor" aria-label="anchor" href="#id_-under-development---looking-for-help-"></a>
 </h2>
-<div class="section level3">
-<h3 id="let-me-know-if-you-would-like-to-be-part-of-the-developing-process-and-help-maintain-the-package">Let me know, if you would like to be part of the developing process and help maintain the package!<a class="anchor" aria-label="anchor" href="#let-me-know-if-you-would-like-to-be-part-of-the-developing-process-and-help-maintain-the-package"></a>
-</h3>
-</div>
+<p>The goal of untrader is to provide a simple wrapper function for the new <a href="https://comtradeplus.un.org/" class="external-link">Comtrade API of the UN</a>. The legacy API was very nicely wrapped in the <a href="https://github.com/ropensci/comtradr" class="external-link">comtradr</a> package. Since there have been extensive changes to the API, I have decided to have a clean start with a new wrapper for the new API. However, a lot of the structure and set-up has been inspired from the original <code>comtradr</code> package and one function (check_date() function) has been entirely copied over with minor changes.</p>
+<p>Let me know, if you would like to be part of the developing process and help maintain the package!</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -91,7 +88,8 @@
 <span>                   flow_direction <span class="op">=</span> <span class="st">'export'</span>,</span>
 <span>                   reporter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ARG"</span>,<span class="st">"GBR"</span><span class="op">)</span>,</span>
 <span>                   partner <span class="op">=</span> <span class="st">'world'</span>,</span>
-<span>                   period <span class="op">=</span> <span class="st">"2018:2021"</span>,</span>
+<span>                   start_date <span class="op">=</span> <span class="st">"2018"</span>,</span>
+<span>                   end_date <span class="op">=</span> <span class="st">"2021"</span>,</span>
 <span>                   verbose <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                  process <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✔ Checked validity of frequency!</span></span>
@@ -102,7 +100,7 @@
 <span><span class="co">#&gt; ✔ Checked validity of partner.</span></span>
 <span><span class="co">#&gt; ✔ Checked validity of period.</span></span>
 <span><span class="co">#&gt; ℹ URL that will be queried:</span></span>
-<span><span class="co">#&gt;   https://comtradeapi.un.org/data/v1/get/C/A/HS?cmdCode=2204%2C2203&amp;flowCode=X&amp;partnerCode=0&amp;reporterCode=32%2C826&amp;period=2018%2C2019%2C2020%2C2021&amp;motCode=0&amp;partner2Code=0</span></span>
+<span><span class="co">#&gt;   https://comtradeapi.un.org/data/v1/get/C/A/HS?cmdCode=2204%2C2203&amp;flowCode=X&amp;partnerCode=0&amp;reporterCode=32%2C826&amp;period=2018%2C2019%2C2020%2C2021&amp;motCode=0&amp;partner2Code=0&amp;customsCode=C00</span></span>
 <span><span class="co">#&gt; ℹ Performing request, which can take a few seconds, depending on the amount of</span></span>
 <span><span class="co">#&gt;   data queried</span></span>
 <span><span class="co">#&gt; ✔ Got a response object from Comtrade. Use `process = F` if there is an error</span></span>
@@ -183,8 +181,8 @@
 <h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
 </h2>
 <ul class="task-list">
-<li><p><input type="checkbox" disabled>Implement the different modes of transportation and different commodity codes</p></li>
-<li><p><input type="checkbox" disabled>Implement monthly frequency</p></li>
+<li><p><input type="checkbox" disabled>Implement the different modes of transportation and different commodity codes, as well as customCodes and partner2codes</p></li>
+<li><p><input type="checkbox" disabled>Implement access to the services API</p></li>
 <li><p><input type="checkbox" disabled>Include some more links to the UN Comtrade API FAQ.</p></li>
 </ul>
 </div>
