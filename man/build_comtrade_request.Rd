@@ -2,12 +2,12 @@
 % Please edit documentation in R/build_comtrade_request.R
 \name{build_comtrade_request}
 \alias{build_comtrade_request}
-\title{build_comtrade_request}
+\title{Build a valid request object from the checked parameters}
 \usage{
 build_comtrade_request(
   params,
   primary_token = get_primary_comtrade_key(),
-  verbose = F
+  verbose
 )
 }
 \arguments{
@@ -21,6 +21,5 @@ build_comtrade_request(
 a httr2 request object
 }
 \description{
-This function takes the necessary parameters and creates a httr2 request to be performed
-this request can then be used in a second function, to actually return the data
+This function takes the necessary parameters and creates a httr2 request to be performed this request can then be used in a second function, to actually return the data
 }

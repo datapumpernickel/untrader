@@ -1,4 +1,5 @@
-#' perform_comtrade_request
+#' Performs the request to the Comtrade API
+#'
 #' Performs the request and returns an error body with the respective error returned by the Comtrade API. Also throttles all requests to 1 request per 6 seconds, or 10 requests per minute.
 #'
 #' @param req a valid comtrade request built by the build_comtrade_request function
@@ -8,7 +9,7 @@
 #'
 #' @return json data from comtrade and possible error codes
 perform_comtrade_request <-
-  function(req, requests_per_second = 10 / 60, verbose = verbose) {
+  function(req, requests_per_second = 10 / 60, verbose = F) {
 
     if (verbose) {
       cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried"))

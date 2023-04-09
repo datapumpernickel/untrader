@@ -1,7 +1,3 @@
-#   Install Package:           'Cmd + Shift + B'
-#   Check Package:             'Cmd + Shift + E'
-#   Test Package:              'Cmd + Shift + T'
-
 #' Get trade data from the Comtrade API
 #'
 #' As the package is under development, please note, that the following parameters will be supplied internally in a fixed manner:

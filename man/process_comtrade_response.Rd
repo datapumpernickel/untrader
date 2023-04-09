@@ -2,10 +2,9 @@
 % Please edit documentation in R/process_comtrade_response.R
 \name{process_comtrade_response}
 \alias{process_comtrade_response}
-\title{process_comtrade_response
-The function adds the respective iso codes for the reporter and partner countries, as well as the commodity code description.}
+\title{Processes the response object}
 \usage{
-process_comtrade_response(resp, verbose = verbose)
+process_comtrade_response(resp, verbose)
 }
 \arguments{
 \item{resp}{a valid httr2 response object created from the function `perform_comtrade_request`}
@@ -16,6 +15,5 @@ process_comtrade_response(resp, verbose = verbose)
 a data.frame object with the results
 }
 \description{
-process_comtrade_response
-The function adds the respective iso codes for the reporter and partner countries, as well as the commodity code description.
+The function processes the httr2response object, parses the json and adds the respective iso codes for the reporter and partner countries, as well as the commodity code description.
 }

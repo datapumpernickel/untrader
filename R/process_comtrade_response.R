@@ -1,11 +1,12 @@
-#' process_comtrade_response
-#' The function adds the respective iso codes for the reporter and partner countries, as well as the commodity code description.
+#' Processes the response object
+#'
+#' The function processes the httr2response object, parses the json and adds the respective iso codes for the reporter and partner countries, as well as the commodity code description.
 #'
 #' @param resp a valid httr2 response object created from the function `perform_comtrade_request`
 #' @param verbose whether the function sends status updates to the console
 #'
 #' @return a data.frame object with the results
-process_comtrade_response <- function(resp, verbose = verbose) {
+process_comtrade_response <- function(resp, verbose = F) {
   result <- resp |>
     httr2::resp_body_json(simplifyVector = T)
 

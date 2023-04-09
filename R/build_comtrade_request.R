@@ -1,7 +1,6 @@
-#' build_comtrade_request
+#' Build a valid request object from the checked parameters
 #'
-#' This function takes the necessary parameters and creates a httr2 request to be performed
-#' this request can then be used in a second function, to actually return the data
+#' This function takes the necessary parameters and creates a httr2 request to be performed this request can then be used in a second function, to actually return the data
 #'
 #'@param params a named vector of parameters for the comtrade request
 #'
