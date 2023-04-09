@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# untrader
+# untrader <a href="https://datapumpernickel.github.io/untrader/"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
 <!-- badges: start -->
 [![R CMD Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml)
