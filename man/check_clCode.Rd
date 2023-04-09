@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_params.R
 \name{check_clCode}
 \alias{check_clCode}
-\title{Check HS classification code}
+\title{Check HS classification parameter}
 \usage{
 check_clCode(commodity_classification)
 }
@@ -13,7 +13,7 @@ check_clCode(commodity_classification)
 A character string specifying the HS classification code.
 }
 \description{
-Check HS classification code
+Check HS classification parameter
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

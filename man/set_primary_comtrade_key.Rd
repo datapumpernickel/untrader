@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{set_primary_comtrade_key}
 \alias{set_primary_comtrade_key}
-\title{set_primary_comtrade_key}
+\title{Set your primary Comtrade API key in the environment variable}
 \usage{
 set_primary_comtrade_key(key = NULL)
 }
@@ -13,5 +13,5 @@ set_primary_comtrade_key(key = NULL)
 Saves your comtrade primary key in the environment.
 }
 \description{
-set_primary_comtrade_key
+If you would like your Comtrade API key to persist in between sessions, use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY to your environment file.
 }

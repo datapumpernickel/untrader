@@ -418,19 +418,19 @@ test_that("throw error with invalid input to arg 'start_date' & 'end_date'", {
 
 test_that("different date inputs produce correct date ranges", {
   # Tests with "freq" is "annual".
-  expect_equal(get_date_range("2016", "2016", "A"), "2016")
-  expect_equal(get_date_range("2016-01-01", 2016, "A"), "2016")
-  expect_equal(get_date_range("2013", "2016", "A"),
+  expect_equal(check_date("2016", "2016", "A"), "2016")
+  expect_equal(check_date("2016-01-01", 2016, "A"), "2016")
+  expect_equal(check_date("2013", "2016", "A"),
                "2013,2014,2015,2016")
-  expect_equal(get_date_range(2010, 2012, "A"), "2010,2011,2012")
+  expect_equal(check_date(2010, 2012, "A"), "2010,2011,2012")
 
   # Tests with "freq" as "monthly".
   expect_equal(
-    get_date_range("2016-01-01", "2016-05", "M"),
+    check_date("2016-01-01", "2016-05", "M"),
     "201601,201602,201603,201604,201605"
   )
-  expect_equal(get_date_range(2016, 2016, "M"), "2016")
-  expect_error(get_date_range("2013", "2016", "M"),
+  expect_equal(check_date(2016, 2016, "M"), "2016")
+  expect_error(check_date("2013", "2016", "M"),
                regexp = "Cannot get more than a single year's worth")
   # expect_error(get_date_range(2015, "2015-03", "M"),
   #              rexexp = "'start_date' and 'end_date' must have the same format")

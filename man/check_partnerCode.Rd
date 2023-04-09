@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_params.R
 \name{check_partnerCode}
 \alias{check_partnerCode}
-\title{Check the validity of partner}
+\title{Check partner parameter}
 \usage{
 check_partnerCode(partner)
 }

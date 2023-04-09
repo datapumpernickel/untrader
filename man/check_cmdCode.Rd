@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_params.R
 \name{check_cmdCode}
 \alias{check_cmdCode}
-\title{Check HS code}
+\title{Check commodity_code parameter}
 \usage{
 check_cmdCode(commodity_code)
 }
@@ -13,7 +13,7 @@ check_cmdCode(commodity_code)
 A character vector specifying the HS codes.
 }
 \description{
-Check HS code
+Check commodity_code parameter
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

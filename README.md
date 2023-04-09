@@ -9,19 +9,20 @@
 Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+## 🚧 Under development - Looking for help 🤗
+
 The goal of untrader is to provide a simple wrapper function for the new
 [Comtrade API of the UN](https://comtradeplus.un.org/). The legacy API
 was very nicely wrapped in the
 [comtradr](https://github.com/ropensci/comtradr) package. Since there
 have been extensive changes to the API, I have decided to have a clean
 start with a new wrapper for the new API. However, a lot of the
-structure and set-up has been inspired from the `comtradr` package and
-one function (get_date_range() function) have been entirely copied over
-with minor changes.
+structure and set-up has been inspired from the original `comtradr`
+package and one function (check_date() function) has been entirely
+copied over with minor changes.
 
-## 🚧 Under development - Looking for help 🤗
-
-### Let me know, if you would like to be part of the developing process and help maintain the package!
+Let me know, if you would like to be part of the developing process and
+help maintain the package!
 
 ## Installation
 
@@ -49,7 +50,8 @@ exports <- get_comtrade_data(frequency =  'A',
                    flow_direction = 'export',
                    reporter = c("ARG","GBR"),
                    partner = 'world',
-                   period = "2018:2021",
+                   start_date = "2018",
+                   end_date = "2021",
                    verbose = T,
                   process = T)
 #> ✔ Checked validity of frequency!
@@ -60,7 +62,7 @@ exports <- get_comtrade_data(frequency =  'A',
 #> ✔ Checked validity of partner.
 #> ✔ Checked validity of period.
 #> ℹ URL that will be queried:
-#>   https://comtradeapi.un.org/data/v1/get/C/A/HS?cmdCode=2204%2C2203&flowCode=X&partnerCode=0&reporterCode=32%2C826&period=2018%2C2019%2C2020%2C2021&motCode=0&partner2Code=0
+#>   https://comtradeapi.un.org/data/v1/get/C/A/HS?cmdCode=2204%2C2203&flowCode=X&partnerCode=0&reporterCode=32%2C826&period=2018%2C2019%2C2020%2C2021&motCode=0&partner2Code=0&customsCode=C00
 #> ℹ Performing request, which can take a few seconds, depending on the amount of
 #>   data queried
 #> ✔ Got a response object from Comtrade. Use `process = F` if there is an error
@@ -142,8 +144,8 @@ ggplot(exports) +
 ## Next steps
 
 - [ ] Implement the different modes of transportation and different
-  commodity codes
+  commodity codes, as well as customCodes and partner2codes
 
-- [ ] Implement monthly frequency
+- [ ] Implement access to the services API
 
 - [ ] Include some more links to the UN Comtrade API FAQ.

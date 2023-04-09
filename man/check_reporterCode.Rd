@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_params.R
 \name{check_reporterCode}
 \alias{check_reporterCode}
-\title{Check the validity of reporter}
+\title{Check reporter parameter}
 \usage{
 check_reporterCode(reporter)
 }

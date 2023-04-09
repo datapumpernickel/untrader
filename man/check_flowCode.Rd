@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_params.R
 \name{check_flowCode}
 \alias{check_flowCode}
-\title{Check flow code}
+\title{Check flow_direction parameter}
 \usage{
 check_flowCode(flow_direction)
 }
@@ -13,7 +13,7 @@ check_flowCode(flow_direction)
 A character vector specifying the trade flow codes.
 }
 \description{
-Check flow code
+Check flow_direction parameter
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

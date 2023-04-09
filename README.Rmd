@@ -19,11 +19,14 @@ knitr::opts_chunk$set(
 [![R CMD Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of untrader is to provide a simple wrapper function for the new [Comtrade API of the UN](https://comtradeplus.un.org/). The legacy API was very nicely wrapped in the [comtradr](https://github.com/ropensci/comtradr) package. Since there have been extensive changes to the API, I have decided to have a clean start with a new wrapper for the new API. However, a lot of the structure and set-up has been inspired from the `comtradr` package and one function (get_date_range() function) have been entirely copied over with minor changes. 
-
 ## 🚧 Under development - Looking for help 🤗
 
-### Let me know, if you would like to be part of the developing process and help maintain the package!
+The goal of untrader is to provide a simple wrapper function for the new [Comtrade API of the UN](https://comtradeplus.un.org/). The legacy API was very nicely wrapped in the [comtradr](https://github.com/ropensci/comtradr) package. Since there have been extensive changes to the API, I have decided to have a clean start with a new wrapper for the new API. However, a lot of the structure and set-up has been inspired from the original `comtradr` package and one function (check_date() function) has been entirely copied over with minor changes. 
+
+Let me know, if you would like to be part of the developing process and help maintain the package!
+
+
+
 
 ## Installation
 
@@ -51,7 +54,8 @@ exports <- get_comtrade_data(frequency =  'A',
                    flow_direction = 'export',
                    reporter = c("ARG","GBR"),
                    partner = 'world',
-                   period = "2018:2021",
+                   start_date = "2018",
+                   end_date = "2021",
                    verbose = T,
                   process = T)
 
@@ -76,8 +80,8 @@ ggplot(exports) +
 
 ## Next steps
 
-- [ ]  Implement the different modes of transportation and different commodity codes
+- [ ] Implement the different modes of transportation and different commodity codes, as well as customCodes and partner2codes
 
-- [ ]  Implement monthly frequency
+- [ ] Implement access to the services API
 
-- [ ]  Include some more links to the UN Comtrade API FAQ. 
+- [ ] Include some more links to the UN Comtrade API FAQ. 

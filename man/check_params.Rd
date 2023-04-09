@@ -18,17 +18,17 @@ check_params(
 )
 }
 \arguments{
-\item{frequency}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
+\item{frequency}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly. The default value is 'A'.}
 
 \item{commodity_classification}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
 
-\item{commodity_code}{The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.}
+\item{commodity_code}{The commodity code that you would like to investigate. The default value is TOTAL, implying the sum of all commodities. Multiple values can be supplied as a character vector.}
 
-\item{flow_direction}{The direction of flows, e.g. whether you would like to get data on reported imports or exports.}
+\item{flow_direction}{The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports. Multiple values can be supplied as a character vector. The default value is 'all' for imports, exports, re-imports and re-exports.}
 
-\item{reporter}{This has to be a character vector specifying the reporter, so the country whose data you would like to query.}
+\item{reporter}{This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)}
 
-\item{partner}{This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.}
+\item{partner}{This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.}
 
 \item{start_date}{Start date of a time period.}
 
@@ -36,11 +36,11 @@ check_params(
 
 \item{verbose}{whether the function sends status updates to the console}
 
-\item{...}{For future extension}
+\item{...}{You can pass in further parameters to the API that will not be checked and passed on as query parameters exactly as they are put in.}
 }
 \value{
 returns a list of named parameters for building a request
 }
 \description{
-check_params
+Checks that input parameters are valid and in compliance with the comtrade API.
 }

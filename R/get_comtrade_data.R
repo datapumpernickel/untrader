@@ -2,20 +2,24 @@
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
 
-#' get_comtrade_data
+#' Get trade data from the Comtrade API
 #'
-#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
+#' As the package is under development, please note, that the following parameters will be supplied internally in a fixed manner:
+#' * customsCode is set to C00, which is the most general
+#' * motCode is set to 0, which is all modes of transportation
+#' * partner2Code is set to 0, which is the most general settings returning all data
+#'
+#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly. The default value is 'A'.
 #' @param commodity_classification The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
-#' @param commodity_code The commodity code that you would like to investigate. The default value is NULL. Multiple values can be supplied as a comma separated string.
-#' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "M" for imports, "X" for exports. Multiple values can be supplied as a comma separated string.
-#' @param reporter This has to be a character vector specifying the reporter in the iso3c format. The reporter is the country that supplied the data to the UN. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)
-#' @param partner This has to be a character vector specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
-#' @param process Whether to return the raw httr2 request or a dataframe with the results.
+#' @param commodity_code The commodity code that you would like to investigate. The default value is TOTAL, implying the sum of all commodities. Multiple values can be supplied as a character vector.
+#' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports. Multiple values can be supplied as a character vector. The default value is 'all' for imports, exports, re-imports and re-exports.
+#' @param reporter This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)
+#' @param partner This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
 #' @param start_date Start date of a time period.
 #' @param end_date End date of a time period.
+#' @param process Whether to return the raw httr2 request or a data.frame with the results.
 #' @param verbose whether the function sends status updates to the console
-#'
-#' @param ... For future extension
+#' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.
 #'
 #' @examplesIf interactive()
 #' get_comtrade_data(frequency = 'A',
@@ -24,15 +28,16 @@
 #' flow_direction = 'export',
 #' reporter = c("ARG","GBR"),
 #' partner = 'world',
-#' period = "2018:2021",
+#' start_date = "2018",
+#' end_date = "2019",
 #' process = T)
 #'
 #' @export
-#' @return returns a list of named parameters for building a request
+#' @return returns a data.frame with trade data or if `process = F` returns a httr2response object.
 get_comtrade_data <- function(frequency = 'A',
                               commodity_classification = 'HS',
-                              commodity_code = NULL,
-                              flow_direction = NULL,
+                              commodity_code = 'TOTAL',
+                              flow_direction = 'all',
                               reporter = NULL,
                               partner = NULL,
                               start_date = NULL,

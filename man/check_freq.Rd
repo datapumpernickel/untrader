@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_params.R
 \name{check_freq}
 \alias{check_freq}
-\title{Check frequency code}
+\title{Check frequency parameter}
 \usage{
 check_freq(frequency)
 }
@@ -13,7 +13,7 @@ check_freq(frequency)
 A character string specifying the frequency of the data.
 }
 \description{
-Check frequency code
+Check frequency parameter
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

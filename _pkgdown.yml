@@ -2,3 +2,13 @@ url: https://datapumpernickel.github.io/untrader/
 template:
   bootstrap: 5
 
+reference:
+- title: "Authentification"
+  desc: "Two helper functions for setting and getting your own key in the environment variable of R."
+  contents:
+  - set_primary_comtrade_key
+  - get_primary_comtrade_key
+- title: "Getting data from comtrade"
+  desc: "This is the main function to get data from the comtrade API."
+  contents:
+  - get_comtrade_data

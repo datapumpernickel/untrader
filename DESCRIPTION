@@ -3,7 +3,7 @@ Type: Package
 Title: This package implements the new comtrade api to query trade data from the UN in a very basic way
 Version: 0.1.0
 Authors@R: 
-    person("Paul", "Bochtler", , 'paul.bochtler@swp-berlin.org', role = c("aut", "cre"))
+    person("Paul", "Bochtler",email = 'paul.bochtler@swp-berlin.org', role = c("aut", "cre"))
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: GPL (>= 3)

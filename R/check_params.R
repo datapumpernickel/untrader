@@ -1,15 +1,17 @@
 #' check_params
 #'
-#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
+#' Checks that input parameters are valid and in compliance with the comtrade API.
+#'
+#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly. The default value is 'A'.
 #' @param commodity_classification The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
-#' @param commodity_code The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.
-#' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports.
-#' @param reporter This has to be a character vector specifying the reporter, so the country whose data you would like to query.
-#' @param partner This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.
-#' @param verbose whether the function sends status updates to the console
+#' @param commodity_code The commodity code that you would like to investigate. The default value is TOTAL, implying the sum of all commodities. Multiple values can be supplied as a character vector.
+#' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports. Multiple values can be supplied as a character vector. The default value is 'all' for imports, exports, re-imports and re-exports.
+#' @param reporter This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)
+#' @param partner This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
 #' @param start_date Start date of a time period.
 #' @param end_date End date of a time period.
-#' @param ... For future extension
+#' @param verbose whether the function sends status updates to the console
+#' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters exactly as they are put in.
 #'
 #' @return returns a list of named parameters for building a request
 check_params <- function(frequency = 'A',
@@ -53,12 +55,10 @@ check_params <- function(frequency = 'A',
     cli::cli_inform(c("v" = "Checked validity of partner."))
   }
 
-  period <- get_date_range(start_date, end_date, frequency)
+  period <- check_date(start_date, end_date, frequency)
   if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of period."))
+    cli::cli_inform(c("v" = "Checked validity of start and end dates."))
   }
-
-
 
   params <- list(
     query_params = list(
@@ -79,7 +79,7 @@ check_params <- function(frequency = 'A',
   return(params)
 }
 
-#' Check frequency code
+#' Check frequency parameter
 #'
 #' @param frequency A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".
 #'
@@ -96,7 +96,7 @@ check_freq <- function(frequency) {
 }
 
 
-#' Check HS classification code
+#' Check HS classification parameter
 #'
 #' @param commodity_classification A character string specifying the HS classification code. Must be "HS".
 #'
@@ -112,7 +112,7 @@ check_clCode <- function(commodity_classification) {
 }
 
 
-#' Check flow code
+#' Check flow_direction parameter
 #'
 #' @param flow_direction A character string or vector specifying the type of trade flow. Must be one or more of "import", "export", "re-export", "re-import", or "all".
 #'
@@ -154,7 +154,7 @@ check_flowCode <- function(flow_direction) {
 }
 
 
-#' Check HS code
+#' Check commodity_code parameter
 #'
 #' @param commodity_code A character string or vector specifying the HS codes.
 #'
@@ -189,7 +189,7 @@ check_cmdCode <- function(commodity_code) {
   return(commodity_code)
 }
 
-#' Check the validity of reporter
+#' Check reporter parameter
 #'
 #' This function checks that the given reporter code is valid. If the code is not
 #' valid, the function throws an error message indicating which codes are invalid.
@@ -246,7 +246,7 @@ check_reporterCode <- function(reporter) {
 }
 
 
-#' Check the validity of partner
+#' Check partner parameter
 #'
 #' This function checks that the given partner code is valid. If the code is not
 #' valid, the function throws an error message indicating which codes are invalid.
@@ -307,50 +307,12 @@ check_partnerCode <- function(partner) {
 }
 
 
-
-# check_period <- function(period) {
-#   # check that period code is not null
-#   if (is.null(period)) {
-#     rlang::abort("You need to provide at least one period reference.")
-#   }
-#
-#   # check if input is a range (e.g. "1999:2002")
-#   if (length(period) == 1 && stringr::str_detect(period, ":")) {
-#    range <- stringr::str_split_1(period, ":") |> as.numeric()
-#
-#   if (length(range) != 2 || !is.numeric(range)) {
-#       rlang::abort("Invalid period range.")
-#     }
-#    if(any(is.na(range))){
-#      rlang::abort("Must provide numbers as input")
-#    }
-#     period <- as.character(seq(from = as.numeric(range[1]), to = as.numeric(range[2])))
-#   } else {
-#     period <- as.character(period)
-#   }
-#
-#
-#   # remove any whitespace from period values
-#   period <- stringr::str_squish(period)
-#
-#   # check if valid period and type
-#   if (!all(stringr::str_detect(period, "^[0-9]+$"))) {
-#     rlang::abort("Invalid period value(s).")
-#   }
-#
-#   # create proper format for periods
-#   period <- paste(period, collapse = ",")
-#   return(period)
-# }
-
-
 ## the get date range function was taken from https://github.com/ropensci/comtradr/blob/master/tests/testthat/test-ct_search.R
-
-#' Get Date Range
+#' check_date
 #'
 #' @return Date range as a single string, comma sep.
 #' @noRd
-get_date_range <- function(start_date, end_date, frequency) {
+check_date <- function(start_date, end_date, frequency) {
   start_date <- as.character(start_date)
   end_date <- as.character(end_date)
 
