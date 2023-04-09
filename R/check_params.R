@@ -1,46 +1,79 @@
 #' check_params
 #'
-#' @param freq The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
-#' @param clCode The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
-#' @param cmdCode The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.
-#' @param flowCode The direction of flows, e.g. whether you would like to get data on reported imports or exports.
-#' @param reporterCode This has to be a character vector specifying the reporter, so the country whose data you would like to query.
-#' @param partnerCode This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.
-#' @param period This has to be a character vector specifying the year of interest.
-#'
+#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.
+#' @param commodity_classification The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
+#' @param commodity_code The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.
+#' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports.
+#' @param reporter This has to be a character vector specifying the reporter, so the country whose data you would like to query.
+#' @param partner This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.
+#' @param verbose whether the function sends status updates to the console
+#' @param start_date Start date of a time period.
+#' @param end_date End date of a time period.
 #' @param ... For future extension
 #'
 #' @return returns a list of named parameters for building a request
-check_params <- function(freq = 'A',
-                         clCode = 'HS',
-                         cmdCode = NULL,
-                         flowCode = NULL,
-                         reporterCode = NULL,
-                         partnerCode = NULL,
-                         period = NULL,
+check_params <- function(frequency = 'A',
+                         commodity_classification = 'HS',
+                         commodity_code = NULL,
+                         flow_direction = NULL,
+                         reporter = NULL,
+                         partner = NULL,
+                         start_date = NULL,
+                         end_date= NULL,
+                         verbose = F,
                          ...) {
 
-  freq <- check_freq(freq)
-  clCode <- check_clCode(clCode)
-  flowCode <- check_flowCode(flowCode)
-  cmdCode <- check_cmdCode(cmdCode)
-  reporterCode <- check_reporterCode(reporterCode)
-  partnerCode <- check_partnerCode(partnerCode)
-  period <- check_period(period)
+  frequency <- check_freq(frequency)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of frequency!"))
+  }
+
+  commodity_classification <- check_clCode(commodity_classification)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of commodity_classification."))
+  }
+
+  flow_direction <- check_flowCode(flow_direction)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of flow_direction."))
+  }
+
+  commodity_code <- check_cmdCode(commodity_code)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of commodity_code."))
+  }
+
+  reporter <- check_reporterCode(reporter)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of reporter."))
+  }
+
+  partner <- check_partnerCode(partner)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of partner."))
+  }
+
+  period <- get_date_range(start_date, end_date, frequency)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of period."))
+  }
+
+
 
   params <- list(
     query_params = list(
-      cmdCode = cmdCode,
-      flowCode = flowCode,
-      partnerCode = partnerCode,
-      reporterCode = reporterCode,
+      cmdCode = commodity_code,
+      flowCode = flow_direction,
+      partnerCode = partner,
+      reporterCode = reporter,
       period = period,
       motCode = '0',
       partner2Code = '0',
+      customsCode ='C00',
       ...
     ),
-    url_params = list(freq = freq,
-                      clCode = clCode)
+    url_params = list(freq = frequency,
+                      clCode = commodity_classification)
   )
 
   return(params)
@@ -48,7 +81,7 @@ check_params <- function(freq = 'A',
 
 #' Check frequency code
 #'
-#' @param freq A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".
+#' @param frequency A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".
 #'
 #' @return A character string specifying the frequency of the data.
 #'
@@ -57,15 +90,15 @@ check_params <- function(freq = 'A',
 #' check_freq("Q") # returns "Q"
 #' check_freq("M") # returns "M"
 #' check_freq("D") # throws an error because "D" is not a valid frequency code
-check_freq <- function(freq) {
-  rlang::arg_match(freq, values = c('A', "Q", "M"))
-  return(freq)
+check_freq <- function(frequency) {
+  rlang::arg_match(frequency, values = c('A', "Q", "M"))
+  return(frequency)
 }
 
 
 #' Check HS classification code
 #'
-#' @param clCode A character string specifying the HS classification code. Must be "HS".
+#' @param commodity_classification A character string specifying the HS classification code. Must be "HS".
 #'
 #' @return A character string specifying the HS classification code.
 #'
@@ -73,15 +106,15 @@ check_freq <- function(freq) {
 #' @examplesIf interactive()
 #' untrader:::check_clCode("HS") # returns "HS"
 #' untrader:::check_clCode("ISIC") # throws an error because "ISIC" is not a valid classification code
-check_clCode <- function(clCode) {
-  rlang::arg_match(clCode, values = c('HS'))
-  return(clCode)
+check_clCode <- function(commodity_classification) {
+  rlang::arg_match(commodity_classification, values = c('HS'))
+  return(commodity_classification)
 }
 
 
 #' Check flow code
 #'
-#' @param flowCode A character string or vector specifying the type of trade flow. Must be one or more of "import", "export", "re-export", "re-import", or "all".
+#' @param flow_direction A character string or vector specifying the type of trade flow. Must be one or more of "import", "export", "re-export", "re-import", or "all".
 #'
 #' @return A character vector specifying the trade flow codes.
 #'
@@ -91,39 +124,39 @@ check_clCode <- function(clCode) {
 #' check_flowCode("trade") # throws an error because "trade" is not a valid flow code
 #' check_flowCode(NULL) # throws an error because at least one flow code must be provided
 #'
-check_flowCode <- function(flowCode) {
+check_flowCode <- function(flow_direction) {
   rlang::arg_match(
-    flowCode,
+    flow_direction,
     values = c('import', 'export', 're-export', 're-import', 'all'),
     multiple = T
   )
-  # check that flowCode code is not null
-  if (!is.null(flowCode)) {
-    flowCode <- as.character(flowCode)
+  # check that flow_direction code is not null
+  if (!is.null(flow_direction)) {
+    flow_direction <- as.character(flow_direction)
   } else{
-    rlang::abort("You need to provide at least one flowCode reference.")
+    rlang::abort("You need to provide at least one flow_direction reference.")
   }
 
-  if(length(flowCode)>1 & any(flowCode=='all')){
+  if(length(flow_direction)>1 & any(flow_direction=='all')){
     rlang::abort("You can only provide 'all' as a single argument")
   }
 
-  if(length(flowCode)>1|!any(flowCode=='all')){
-    flowCode <- stringr::str_replace_all(flowCode,'^import$',"M")
-    flowCode <- stringr::str_replace_all(flowCode,'^export$',"X")
-    flowCode <- stringr::str_replace_all(flowCode,'^re-import$',"RM")
-    flowCode <- stringr::str_replace_all(flowCode,'^re-export$',"RX")
-    flowCode <- flowCode |> paste0(collapse = ',')
-  } else if( flowCode=='all') {
-    flowCode <- 'M,X,RM,RX'
+  if(length(flow_direction)>1|!any(flow_direction=='all')){
+    flow_direction <- stringr::str_replace_all(flow_direction,'^import$',"M")
+    flow_direction <- stringr::str_replace_all(flow_direction,'^export$',"X")
+    flow_direction <- stringr::str_replace_all(flow_direction,'^re-import$',"RM")
+    flow_direction <- stringr::str_replace_all(flow_direction,'^re-export$',"RX")
+    flow_direction <- flow_direction |> paste0(collapse = ',')
+  } else if( flow_direction=='all') {
+    flow_direction <- 'M,X,RM,RX'
   }
-  return(flowCode)
+  return(flow_direction)
 }
 
 
 #' Check HS code
 #'
-#' @param cmdCode A character string or vector specifying the HS codes.
+#' @param commodity_code A character string or vector specifying the HS codes.
 #'
 #' @return A character vector specifying the HS codes.
 #'
@@ -132,37 +165,37 @@ check_flowCode <- function(flowCode) {
 #' check_cmdCode(c("01", "02")) # returns "01,02"
 #' check_cmdCode("ABC") # throws an error because "ABC" is not a valid HS code
 #' check_cmdCode(NULL) # throws an error because at least one HS code must be provided
-check_cmdCode <- function(cmdCode) {
-  # check that cmdCode code is not null
-  if (!is.null(cmdCode)) {
-    cmdCode <- as.character(cmdCode)
+check_cmdCode <- function(commodity_code) {
+  # check that commodity_code code is not null
+  if (!is.null(commodity_code)) {
+    commodity_code <- as.character(commodity_code)
   } else{
-    rlang::abort("You need to provide at least one cmdCode reference.")
+    rlang::abort("You need to provide at least one commodity_code reference.")
   }
 
   # check validity of arguments ---------------------------------------------
   # separating provided hs codes
-  cmdCode <- stringr::str_squish(cmdCode)
+  commodity_code <- stringr::str_squish(commodity_code)
   # if one of the HS codes is not in the list of valid HS codes send stop signal and list problems
-  if (!all(cmdCode %in% untrader::HS$id)) {
+  if (!all(commodity_code %in% untrader::HS$id)) {
     rlang::abort(paste0(
       "The following HS codes you provided are invalid: ",
-      paste0(cmdCode[!cmdCode %in% untrader::HS$id], collapse = ", ")
+      paste0(commodity_code[!commodity_code %in% untrader::HS$id], collapse = ", ")
     ))
   } else {
-    cmdCode <- paste0(cmdCode, collapse = ',')
+    commodity_code <- paste0(commodity_code, collapse = ',')
   }
 
-  return(cmdCode)
+  return(commodity_code)
 }
 
-#' Check the validity of reporterCode
+#' Check the validity of reporter
 #'
 #' This function checks that the given reporter code is valid. If the code is not
 #' valid, the function throws an error message indicating which codes are invalid.
 #' It also converts the input to a proper format if necessary.
 #'
-#' @param reporterCode A character vector or string of comma-separated codes that
+#' @param reporter A character vector or string of comma-separated codes that
 #'   represent the reporters in the trade data. The default value is NULL.
 #'
 #' @return A character vector of valid reporter IDs.
@@ -171,55 +204,55 @@ check_cmdCode <- function(cmdCode) {
 #' check_reporterCode("USA")
 #' check_reporterCode(c("USA", "FRA"))
 #' check_reporterCode("all")
-check_reporterCode <- function(reporterCode) {
+check_reporterCode <- function(reporter) {
   # check that reporter code is valid
-  if (!is.null(reporterCode)) {
-    reporterCode <- as.character(reporterCode)
+  if (!is.null(reporter)) {
+    reporter <- as.character(reporter)
   } else{
-    rlang::abort("You need to provide at least one reporterCode")
+    rlang::abort("You need to provide at least one reporter")
   }
 
 
   ## check if valid reporter code length and type
-  reporterCode <- stringr::str_squish(reporterCode)
+  reporter <- stringr::str_squish(reporter)
   ## get multiple values or single values that are not 'all'
-  if (length(reporterCode) > 1 | !any(reporterCode == 'all')) {
-    if (any(reporterCode == 'all')) {
+  if (length(reporter) > 1 | !any(reporter == 'all')) {
+    if (any(reporter == 'all')) {
       rlang::abort('"all" can only be provided as a single argument')
     }
     # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
-    if (!all(reporterCode %in% untrader::REPORTER$reporterCodeIsoAlpha3)) {
+    if (!all(reporter %in% untrader::REPORTER$reporterCodeIsoAlpha3)) {
       rlang::abort(paste0(
         "The following reporterCodes you provided are invalid: ",
-        paste0(reporterCode[!reporterCode %in% untrader::REPORTER$reporterCodeIsoAlpha3], collapse = ", ")
+        paste0(reporter[!reporter %in% untrader::REPORTER$reporterCodeIsoAlpha3], collapse = ", ")
       ))
     }
   }
 
   # create proper ids for reporter Code
-  if (length(reporterCode) > 1 | !any(reporterCode == 'all')) {
-    reporterCode <-
-      untrader::REPORTER$id[untrader::REPORTER$reporterCodeIsoAlpha3 %in% reporterCode &
+  if (length(reporter) > 1 | !any(reporter == 'all')) {
+    reporter <-
+      untrader::REPORTER$id[untrader::REPORTER$reporterCodeIsoAlpha3 %in% reporter &
                               untrader::REPORTER$isGroup ==
                               F] |>
       paste0(collapse = ',')
-  } else if (reporterCode == 'all') {
-    reporterCode <-
+  } else if (reporter == 'all') {
+    reporter <-
       untrader::REPORTER$id[untrader::REPORTER$isGroup == F] |>
       paste0(collapse = ',')
   }
 
-  return(reporterCode)
+  return(reporter)
 }
 
 
-#' Check the validity of partnerCode
+#' Check the validity of partner
 #'
 #' This function checks that the given partner code is valid. If the code is not
 #' valid, the function throws an error message indicating which codes are invalid.
 #' It also converts the input to a proper format if necessary.
 #'
-#' @param partnerCode A character vector or string of comma-separated codes that
+#' @param partner A character vector or string of comma-separated codes that
 #'   represent the trade partners in the trade data. The default value is NULL.
 #'
 #' @return A character vector of valid partner IDs.
@@ -228,96 +261,177 @@ check_reporterCode <- function(reporterCode) {
 #' check_partnerCode("CAN")
 #' check_partnerCode(c("CAN", "MEX"))
 #' check_partnerCode("all")
-check_partnerCode <- function(partnerCode) {
+check_partnerCode <- function(partner) {
   # check that partner code is valid
-  if (!is.null(partnerCode)) {
-    partnerCode <- as.character(partnerCode)
+  if (!is.null(partner)) {
+    partner <- as.character(partner)
   } else{
-    rlang::abort("You need to provide at least one partnerCode")
+    rlang::abort("You need to provide at least one partner")
   }
 
-  if (length(partnerCode) > 1 | !any(partnerCode == 'all')) {
-    partnerCode <- stringr::str_squish(partnerCode)
-    if (any(partnerCode == 'all')) {
+  if (length(partner) > 1 | !any(partner == 'all')) {
+    partner <- stringr::str_squish(partner)
+    if (any(partner == 'all')) {
       rlang::abort('"all" can only be provided as a single argument')
     }
     # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
-    if (!all(partnerCode %in% c(untrader::PARTNER$PartnerCodeIsoAlpha3, 'world'))) {
+    if (!all(partner %in% c(untrader::PARTNER$PartnerCodeIsoAlpha3, 'world'))) {
       rlang::abort(paste0(
-        "The following partnerCode you provided are invalid: ",
-        paste0(partnerCode[!partnerCode %in% c(untrader::PARTNER$PartnerCodeIsoAlpha3, 'world')], collapse = ", ")
+        "The following partner you provided are invalid: ",
+        paste0(partner[!partner %in% c(untrader::PARTNER$PartnerCodeIsoAlpha3, 'world')], collapse = ", ")
       ))
     }
   }
 
-  # create proper ids for partnerCode
-  if (length(partnerCode) > 1 | !any(partnerCode == 'all')) {
+  # create proper ids for partner
+  if (length(partner) > 1 | !any(partner == 'all')) {
     values <-
-      untrader::PARTNER$id[untrader::PARTNER$PartnerCodeIsoAlpha3 %in% partnerCode &
+      untrader::PARTNER$id[untrader::PARTNER$PartnerCodeIsoAlpha3 %in% partner &
                              untrader::PARTNER$isGroup == F] |>
       paste0(collapse = ',')
 
-    if (any(stringr::str_detect(partnerCode, 'world'))) {
-      partnerCode <- paste0(values, '0', collapse = "")
+    if (any(stringr::str_detect(partner, 'world'))) {
+      partner <- paste0(values, '0', collapse = "")
     } else {
-      partnerCode <- values
+      partner <- values
     }
 
-  } else if (partnerCode == 'world') {
-    partnerCode <- '0'
-  } else if (partnerCode == 'all') {
-    partnerCode <-
+  } else if (partner == 'world') {
+    partner <- '0'
+  } else if (partner == 'all') {
+    partner <-
       untrader::PARTNER$id[untrader::PARTNER$isGroup == F] |>
       paste0(collapse = ',')
   }
-  return(partnerCode)
+  return(partner)
 }
 
 
 
-#' Check if period is valid and return a comma-separated string of periods
-#'
-#' @param period A period reference as an integer or character vector or a range as "start:end".
-#'
-#' @return A comma-separated string of periods.
-#'
-#' @examplesIf interactive()
-#' check_period(1999:2002)
-#' check_period(c('1999', '2020'))
-#' check_period('2021')
-#'
-#' @export
-check_period <- function(period) {
-  # check that period code is not null
-  if (is.null(period)) {
-    rlang::abort("You need to provide at least one period reference.")
-  }
+# check_period <- function(period) {
+#   # check that period code is not null
+#   if (is.null(period)) {
+#     rlang::abort("You need to provide at least one period reference.")
+#   }
+#
+#   # check if input is a range (e.g. "1999:2002")
+#   if (length(period) == 1 && stringr::str_detect(period, ":")) {
+#    range <- stringr::str_split_1(period, ":") |> as.numeric()
+#
+#   if (length(range) != 2 || !is.numeric(range)) {
+#       rlang::abort("Invalid period range.")
+#     }
+#    if(any(is.na(range))){
+#      rlang::abort("Must provide numbers as input")
+#    }
+#     period <- as.character(seq(from = as.numeric(range[1]), to = as.numeric(range[2])))
+#   } else {
+#     period <- as.character(period)
+#   }
+#
+#
+#   # remove any whitespace from period values
+#   period <- stringr::str_squish(period)
+#
+#   # check if valid period and type
+#   if (!all(stringr::str_detect(period, "^[0-9]+$"))) {
+#     rlang::abort("Invalid period value(s).")
+#   }
+#
+#   # create proper format for periods
+#   period <- paste(period, collapse = ",")
+#   return(period)
+# }
 
-  # check if input is a range (e.g. "1999:2002")
-  if (length(period) == 1 && stringr::str_detect(period, ":")) {
-   range <- stringr::str_split_1(period, ":") |> as.numeric()
 
-  if (length(range) != 2 || !is.numeric(range)) {
-      rlang::abort("Invalid period range.")
+## the get date range function was taken from https://github.com/ropensci/comtradr/blob/master/tests/testthat/test-ct_search.R
+
+#' Get Date Range
+#'
+#' @return Date range as a single string, comma sep.
+#' @noRd
+get_date_range <- function(start_date, end_date, frequency) {
+  start_date <- as.character(start_date)
+  end_date <- as.character(end_date)
+
+  if (frequency == "A") {
+    # Date range when freq is "annual" (date range by year).
+    start_date <- convert_to_date(date_obj = start_date)
+    end_date <- convert_to_date(date_obj = end_date)
+    date_range <- seq.Date(start_date, end_date, by = "year") |>
+      format(format = "%Y")
+  } else if (frequency == "M") {
+    # Date range when freq is "monthly".
+    sd_year <- is_year(start_date)
+    ed_year <- is_year(end_date)
+    if (sd_year && ed_year) {
+      # If start_date and end_date are both years ("yyyy") and are identical,
+      # return the single year as the date range.
+      if (identical(start_date, end_date)) {
+        return(start_date)
+      } else {
+        rlang::abort("Cannot get more than a single year's worth of monthly data in a single query")
+      }
+    } else if (!sd_year && !ed_year) {
+      # If neither start_date nor end_date are years, get date range by month.
+      start_date <- convert_to_date(start_date)
+      end_date <- convert_to_date(end_date)
+      date_range <- seq.Date(start_date, end_date, by = "month") |>
+        format(format = "%Y%m")
+    } else {
+      # Between start_date and end_date, if one is a year and the other isn't,
+      # throw an error.
+      rlang::abort("If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format")
     }
-   if(any(is.na(range))){
-     rlang::abort("Must provide numbers as input")
-   }
-    period <- as.character(seq(from = as.numeric(range[1]), to = as.numeric(range[2])))
+  }
+
+  # If the derived date range is longer than five elements, throw an error.
+  if (length(date_range) > 12) {
+    stop("If specifying years/months, cannot search more than five consecutive years/months in a single query")
+  }
+
+  return(paste(date_range, collapse = ","))
+}
+
+
+#' Given a numeric or character date, convert to an object with class "Date".
+#'
+#' @return Object of class "Date" (using base::as.Date()).
+#' @noRd
+convert_to_date <- function(date_obj) {
+  # Convert to Date.
+  if (is_year(x = date_obj)) {
+    date_obj <- as.Date(paste0(date_obj, "-01-01"), format = "%Y-%m-%d")
+  } else if (is_year_month(x = date_obj)) {
+    date_obj <- as.Date(paste0(date_obj, "-01"), format = "%Y-%m-%d")
   } else {
-    period <- as.character(period)
+    date_obj <- as.Date(date_obj, format = "%Y-%m-%d")
+  }
+  # If conversion to Date failed, throw error.
+  if (is.na(date_obj)) {
+    rlang::abort(
+      paste("arg must be a date with one of these formats:\n",
+            "int: yyyy\n",
+            "char: 'yyyy'\n",
+            "char: 'yyyy-mm'\n",
+            "char: 'yyyy-mm-dd'"))
   }
 
+  return(date_obj)
+}
 
-  # remove any whitespace from period values
-  period <- stringr::str_squish(period)
 
-  # check if valid period and type
-  if (!all(stringr::str_detect(period, "^[0-9]+$"))) {
-    rlang::abort("Invalid period value(s).")
-  }
+#' Is input a year string or not.
+#'
+#' @noRd
+is_year <- function(x) {
+  grepl("^\\d{4}$", x)
+}
 
-  # create proper format for periods
-  period <- paste(period, collapse = ",")
-  return(period)
+
+#' Is input a year-month string or not.
+#'
+#' @noRd
+is_year_month <- function(x) {
+  grepl("^\\d{4}-\\d{2}", x)
 }

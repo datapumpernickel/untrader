@@ -2,12 +2,12 @@
 % Please edit documentation in R/check_params.R
 \name{check_partnerCode}
 \alias{check_partnerCode}
-\title{Check the validity of partnerCode}
+\title{Check the validity of partner}
 \usage{
-check_partnerCode(partnerCode)
+check_partnerCode(partner)
 }
 \arguments{
-\item{partnerCode}{A character vector or string of comma-separated codes that
+\item{partner}{A character vector or string of comma-separated codes that
 represent the trade partners in the trade data. The default value is NULL.}
 }
 \value{

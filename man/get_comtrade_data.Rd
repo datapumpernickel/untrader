@@ -5,33 +5,39 @@
 \title{get_comtrade_data}
 \usage{
 get_comtrade_data(
-  freq = "A",
-  clCode = "HS",
-  cmdCode = NULL,
-  flowCode = NULL,
-  reporterCode = NULL,
-  partnerCode = NULL,
-  period = NULL,
+  frequency = "A",
+  commodity_classification = "HS",
+  commodity_code = NULL,
+  flow_direction = NULL,
+  reporter = NULL,
+  partner = NULL,
+  start_date = NULL,
+  end_date = NULL,
   process = T,
+  verbose = F,
   ...
 )
 }
 \arguments{
-\item{freq}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
+\item{frequency}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
 
-\item{clCode}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
+\item{commodity_classification}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
 
-\item{cmdCode}{The commodity code that you would like to investigate. The default value is NULL. Multiple values can be supplied as a comma separated string.}
+\item{commodity_code}{The commodity code that you would like to investigate. The default value is NULL. Multiple values can be supplied as a comma separated string.}
 
-\item{flowCode}{The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "M" for imports, "X" for exports. Multiple values can be supplied as a comma separated string.}
+\item{flow_direction}{The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "M" for imports, "X" for exports. Multiple values can be supplied as a comma separated string.}
 
-\item{reporterCode}{This has to be a character vector specifying the reporter in the iso3c format. The reporter is the country that supplied the data to the UN. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)}
+\item{reporter}{This has to be a character vector specifying the reporter in the iso3c format. The reporter is the country that supplied the data to the UN. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)}
 
-\item{partnerCode}{This has to be a character vector specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.}
+\item{partner}{This has to be a character vector specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. Multiple values can be supplied as a comma separated string. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.}
 
-\item{period}{This has to be a character vector specifying the year of interest. Multiple values can be supplied as a comma separated string.}
+\item{start_date}{Start date of a time period.}
+
+\item{end_date}{End date of a time period.}
 
 \item{process}{Whether to return the raw httr2 request or a dataframe with the results.}
+
+\item{verbose}{whether the function sends status updates to the console}
 
 \item{...}{For future extension}
 }
@@ -43,12 +49,12 @@ get_comtrade_data
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_comtrade_data(freq = 'A',
-clCode = 'HS',
-cmdCode = c('2204','2203'),
-flowCode = 'export',
-reporterCode = c("ARG","GBR"),
-partnerCode = 'world',
+get_comtrade_data(frequency = 'A',
+commodity_classification = 'HS',
+commodity_code = c('2204','2203'),
+flow_direction = 'export',
+reporter = c("ARG","GBR"),
+partner = 'world',
 period = "2018:2021",
 process = T)
 \dontshow{\}) # examplesIf}

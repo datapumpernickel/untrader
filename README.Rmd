@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![R CMD Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of untrader is to provide a simple wrapper function for the new [Comtrade API of the UN](https://comtradeplus.un.org/). The legacy API was very nicely wrapped in the [comtradr](https://github.com/ropensci/comtradr) package. Since there have been extensive changes to the API, I have decided to have a clean start with a new wrapper for the new API. 
+The goal of untrader is to provide a simple wrapper function for the new [Comtrade API of the UN](https://comtradeplus.un.org/). The legacy API was very nicely wrapped in the [comtradr](https://github.com/ropensci/comtradr) package. Since there have been extensive changes to the API, I have decided to have a clean start with a new wrapper for the new API. However, a lot of the structure and set-up has been inspired from the `comtradr` package and one function (get_date_range() function) have been entirely copied over with minor changes. 
 
 ## 🚧 Under development - Looking for help 🤗
 
@@ -37,7 +37,7 @@ devtools::install_github('datapumpernickel/untrader')
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r message=T, example}
 library(untrader)
 library(ggplot2)
 library(stringr)
@@ -45,14 +45,18 @@ library(stringr)
 ## you need to set your API key first
 # set_primary_comtrade_key()
 
-exports <- get_comtrade_data(freq = 'A',
-                   clCode = 'HS',
-                   cmdCode = c('2204','2203'),
-                   flowCode = 'export',
-                   reporterCode = c("ARG","GBR"),
-                   partnerCode = 'world',
+exports <- get_comtrade_data(frequency =  'A',
+                   commodity_classification = 'HS',
+                   commodity_code = c('2204','2203'),
+                   flow_direction = 'export',
+                   reporter = c("ARG","GBR"),
+                   partner = 'world',
                    period = "2018:2021",
+                   verbose = T,
                   process = T)
+
+
+str(exports)
 
 ggplot(exports) +
   geom_col(aes(

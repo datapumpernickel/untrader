@@ -4,10 +4,10 @@
 \alias{check_cmdCode}
 \title{Check HS code}
 \usage{
-check_cmdCode(cmdCode)
+check_cmdCode(commodity_code)
 }
 \arguments{
-\item{cmdCode}{A character string or vector specifying the HS codes.}
+\item{commodity_code}{A character string or vector specifying the HS codes.}
 }
 \value{
 A character vector specifying the HS codes.

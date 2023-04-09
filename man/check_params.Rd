@@ -5,30 +5,36 @@
 \title{check_params}
 \usage{
 check_params(
-  freq = "A",
-  clCode = "HS",
-  cmdCode = NULL,
-  flowCode = NULL,
-  reporterCode = NULL,
-  partnerCode = NULL,
-  period = NULL,
+  frequency = "A",
+  commodity_classification = "HS",
+  commodity_code = NULL,
+  flow_direction = NULL,
+  reporter = NULL,
+  partner = NULL,
+  start_date = NULL,
+  end_date = NULL,
+  verbose = F,
   ...
 )
 }
 \arguments{
-\item{freq}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
+\item{frequency}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly or "Q" for monthly.}
 
-\item{clCode}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
+\item{commodity_classification}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
 
-\item{cmdCode}{The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.}
+\item{commodity_code}{The commodity code that you would like to investigate. The default value is 'TOTAL' to get trade across all commodities.}
 
-\item{flowCode}{The direction of flows, e.g. whether you would like to get data on reported imports or exports.}
+\item{flow_direction}{The direction of flows, e.g. whether you would like to get data on reported imports or exports.}
 
-\item{reporterCode}{This has to be a character vector specifying the reporter, so the country whose data you would like to query.}
+\item{reporter}{This has to be a character vector specifying the reporter, so the country whose data you would like to query.}
 
-\item{partnerCode}{This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.}
+\item{partner}{This has to be a character vector specifying the partner country, so the country with whom trade is being reported by the reporter country.}
 
-\item{period}{This has to be a character vector specifying the year of interest.}
+\item{start_date}{Start date of a time period.}
+
+\item{end_date}{End date of a time period.}
+
+\item{verbose}{whether the function sends status updates to the console}
 
 \item{...}{For future extension}
 }
