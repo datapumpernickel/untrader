@@ -1,11 +1,11 @@
 Package: untrader
 Type: Package
-Title: This package implements the new comtrade api to query trade data from the UN in a very basic way
+Title: Wrapping the Comtrade API for R
 Version: 0.1.0
 Authors@R: 
     person("Paul", "Bochtler",email = 'paul.bochtler@swp-berlin.org', role = c("aut", "cre"))
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: The package provides a port to the Comtrade API, allowing the user to query trade data from the free endpoint for Goods. 
+    This does not implement the endpoint for services or the premium or bulk-download facilities. 
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

@@ -12,3 +12,30 @@ reference:
   desc: "This is the main function to get data from the comtrade API."
   contents:
   - get_comtrade_data
+
+- title: "Helper functions for parameters"
+  desc: "These functions validate and re-format the input for the API call."
+  contents:
+  - check_clCode
+  - check_cmdCode
+  - check_flowCode
+  - check_freq
+  - check_params
+  - check_partnerCode
+  - check_reporterCode
+  - check_partnerCode
+
+- title: "Helper functions for request"
+  desc: "These functions form the httr2 request, execute it and process the result"
+  contents:
+  - build_comtrade_request
+  - perform_comtrade_request
+  - process_comtrade_response
+
+
+- title: "Datasets"
+  desc: "These datasets are used internally to verify the validity of reporter and partner codes, as well as commodity codes"
+  contents:
+  - HS
+  - PARTNER
+  - REPORTER
