@@ -11,32 +11,6 @@ process_comtrade_response <- function(resp, verbose = F) {
     httr2::resp_body_json(simplifyVector = T)
 
   if (length(result$data) > 0) {
-    result <- result$data |>
-      poorman::left_join(
-        untrader::HS |>
-          poorman::rename(cmd_description = text) |>
-          poorman::select(cmd_description, id),
-        by = c("cmdCode" = 'id')
-      ) |>
-      poorman::left_join(
-        untrader::PARTNER |>
-          poorman::select(
-            partner_iso3c = PartnerCodeIsoAlpha3,
-            partner_description = PartnerDesc,
-            id
-          ),
-        by = c("partnerCode" = 'id')
-      ) |>
-      poorman::left_join(
-        untrader::REPORTER |>
-          poorman::select(
-            reporter_iso3c = reporterCodeIsoAlpha3,
-            reporter_description = reporterDesc,
-            id
-          ),
-        by = c("reporterCode" = 'id')
-      )
-
     if(nrow(result)>249999){
         rlang::abort('Your request returns more than 250k rows. This means that most likely not all the data you queried has been returned, as the upper limit is 250k. Please partition your API call, e.g. by using only half the period in the first call.')
     } else if(nrow(result)>200000){

@@ -17,12 +17,10 @@ Imports:
     stringr,
     testthat,
     askpass,
-    poorman,
     cli
 Depends: 
     R (>= 2.10)
 URL: https://datapumpernickel.github.io/untrader/
 Suggests: 
-    knitr,
-    rmarkdown
+    knitr
 VignetteBuilder: knitr

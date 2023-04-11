@@ -54,6 +54,7 @@ get_comtrade_data <- function(frequency = 'A',
     start_date = start_date,
     end_date = end_date,
     verbose = verbose,
+    includeDesc = "TRUE",
     ...
   )
 
