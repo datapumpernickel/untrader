@@ -1,0 +1,59 @@
+---
+title: "untrader"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{untrader}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Installation
+
+Install the package from the github repository. 
+
+```{r installation,eval=F}
+devtools::install_github('datapumpernickel/untrader')
+```
+
+# Authentication
+
+To query data from the Comtrade API, you will need to make an account at [https://comtradeplus.un.org/](https://comtradeplus.un.org/). Once you made your account, you need set up a primary and secondary key in your profile at the UN website. See their [wiki](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide) for details (Scroll until you reach `UN Comtrade API Management`).  
+
+Once you have your API key, you need to make the API key available to `untrader`. For this, you can either set your key through the interactive function and save it for the current session, or set it permanently in your environment. 
+
+### Set it in current session
+
+When prompted, put the API key in.
+
+```{r set primary key,eval=F}
+untrader::set_primary_comtrade_key()
+```
+
+You can test that the API key is correctly stored, by trying to call the following function. Beware not to evaluate the following function in a markdown document you intend on sharing, as you might leak your API key. 
+
+```{r get key,eval=F}
+untrader::get_primary_comtrade_key()
+```
+
+
+### Permanently setting your API key
+
+You can also permanently set your API key either for the current project or your whole user environment. For this you need to edit your .Renviron file (see [here](https://rstats.wtf/r-startup.html#renviron) for more info on environment file and variables).
+
+You can use `usethis::edit_r_environ()` to edit your .Renviron file. The variable name that `get_comtrade_data()` will be looking for is: `COMTRADE_PRIMARY` and you need to name it accordingly. 
+
+If for some reason, you want to set the API key manually, you can also pass it on to the `get_comtrade_data()` function with the parameter `primary_key`. 
+
+# Getting data from Comtrade
+
+
+```{r error with no params,eval=F}
+untrader::get_comtrade_data()
+```

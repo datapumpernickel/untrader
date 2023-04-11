@@ -4,7 +4,7 @@
 \alias{process_comtrade_response}
 \title{Processes the response object}
 \usage{
-process_comtrade_response(resp, verbose)
+process_comtrade_response(resp, verbose = F)
 }
 \arguments{
 \item{resp}{a valid httr2 response object created from the function `perform_comtrade_request`}

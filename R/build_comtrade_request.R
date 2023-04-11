@@ -10,7 +10,7 @@
 #'
 #' @return a httr2 request object
 build_comtrade_request <- function(params,
-                                   primary_token = get_primary_comtrade_key(),
+                                   primary_token = NULL,
                                    verbose = F) {
   query_params <- params$query_params
 

@@ -15,6 +15,7 @@ get_comtrade_data(
   end_date = NULL,
   process = T,
   verbose = F,
+  primary_token = get_primary_comtrade_key(),
   ...
 )
 }
@@ -38,6 +39,8 @@ get_comtrade_data(
 \item{process}{Whether to return the raw httr2 request or a data.frame with the results.}
 
 \item{verbose}{whether the function sends status updates to the console}
+
+\item{primary_token}{Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function}
 
 \item{...}{You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.}
 }

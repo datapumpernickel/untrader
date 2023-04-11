@@ -2,6 +2,23 @@ url: https://datapumpernickel.github.io/untrader/
 template:
   bootstrap: 5
 
+
+home:
+  links:
+  - text: Report a bug
+    href: https://github.com/datapumpernickel/untrader/issues/
+
+navbar:
+structure:
+  left:  [intro, reference, articles, tutorials, news]
+  right: [search, github, issue, home]
+
+repo:
+  url:
+    home: https://github.com/datapumpernickel/untrader
+    source: https://github.com/datapumpernickel/untrader/blob/HEAD/
+    issue: https://github.com/datapumpernickel/untrader/issues/
+
 reference:
 - title: "Authentification"
   desc: "Two helper functions for setting and getting your own key in the environment variable of R."

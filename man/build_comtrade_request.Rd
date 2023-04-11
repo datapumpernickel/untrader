@@ -4,11 +4,7 @@
 \alias{build_comtrade_request}
 \title{Build a valid request object from the checked parameters}
 \usage{
-build_comtrade_request(
-  params,
-  primary_token = get_primary_comtrade_key(),
-  verbose
-)
+build_comtrade_request(params, primary_token = NULL, verbose = F)
 }
 \arguments{
 \item{params}{a named vector of parameters for the comtrade request}

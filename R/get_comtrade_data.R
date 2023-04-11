@@ -13,6 +13,7 @@
 #' @param partner This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
 #' @param start_date Start date of a time period.
 #' @param end_date End date of a time period.
+#' @param primary_token Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function
 #' @param process Whether to return the raw httr2 request or a data.frame with the results.
 #' @param verbose whether the function sends status updates to the console
 #' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.
@@ -40,6 +41,7 @@ get_comtrade_data <- function(frequency = 'A',
                               end_date = NULL,
                               process = T,
                               verbose = F,
+                              primary_token = get_primary_comtrade_key(),
                               ...) {
   ## compile codes
   params <- check_params(
@@ -55,7 +57,7 @@ get_comtrade_data <- function(frequency = 'A',
     ...
   )
 
-  req <- build_comtrade_request(params, verbose = verbose)
+  req <- build_comtrade_request(params, verbose = verbose,primary_token = primary_token)
 
   resp <- perform_comtrade_request(req, verbose = verbose)
 
