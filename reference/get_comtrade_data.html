@@ -24,13 +24,22 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/untrader.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/datapumpernickel/untrader" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -38,7 +47,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get trade data from the Comtrade API</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/datapumpernickel/untrader/blob/HEAD/R/get_comtrade_data.R" class="external-link"><code>R/get_comtrade_data.R</code></a></small>
       <div class="d-none name"><code>get_comtrade_data.Rd</code></div>
     </div>
 
@@ -62,6 +71,7 @@
 <span>  end_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  primary_token <span class="op">=</span> <span class="fu"><a href="get_primary_comtrade_key.html">get_primary_comtrade_key</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -106,6 +116,10 @@
 
 <dt>verbose</dt>
 <dd><p>whether the function sends status updates to the console</p></dd>
+
+
+<dt>primary_token</dt>
+<dd><p>Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function</p></dd>
 
 
 <dt>...</dt>
