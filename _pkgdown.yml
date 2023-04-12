@@ -33,11 +33,12 @@ reference:
 - title: "Helper functions for parameters"
   desc: "These functions validate and re-format the input for the API call."
   contents:
+  - check_params
   - check_clCode
   - check_cmdCode
   - check_flowCode
   - check_freq
-  - check_params
+  - check_date
   - check_partnerCode
   - check_reporterCode
   - check_partnerCode
