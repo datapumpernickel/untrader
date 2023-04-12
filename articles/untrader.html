@@ -136,13 +136,13 @@ the parameter <code>primary_key</code>.</p>
 <p>When getting data from comtrade, you will need to set values for most
 parameters, as there is no sensitive default for some of them.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">untrader</span><span class="fu">::</span><span class="fu"><a href="../reference/get_comtrade_data.html">get_comtrade_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_comtrade_data.html">get_comtrade_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>If you are for example interested in the exports of “Beer made from
 malt”, HS code <a href="https://www.tariffnumber.com/2023/2203" class="external-link">2203</a>
 from Germany to Austria, in the year 2010, you would use the following
 code.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">untrader</span><span class="fu">::</span><span class="fu"><a href="../reference/get_comtrade_data.html">get_comtrade_data</a></span><span class="op">(</span>frequency <span class="op">=</span>  <span class="st">'A'</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_comtrade_data.html">get_comtrade_data</a></span><span class="op">(</span>frequency <span class="op">=</span>  <span class="st">'A'</span>,</span>
 <span>                   commodity_classification <span class="op">=</span> <span class="st">'HS'</span>,</span>
 <span>                   commodity_code <span class="op">=</span> <span class="st">'2203'</span>,</span>
 <span>                   flow_direction <span class="op">=</span> <span class="st">'export'</span>,</span>
