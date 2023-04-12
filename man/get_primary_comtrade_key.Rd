@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{get_primary_comtrade_key}
 \alias{get_primary_comtrade_key}
-\title{get_primary_comtrade_key
-If you would like your Comtrade API key to persist in between sessions, use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY to your environment file.}
+\title{get_primary_comtrade_key}
 \usage{
 get_primary_comtrade_key()
 }
@@ -11,6 +10,5 @@ get_primary_comtrade_key()
 Gets your primary comtrade key from the environment var COMTRADE_PRIMARY
 }
 \description{
-get_primary_comtrade_key
 If you would like your Comtrade API key to persist in between sessions, use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY to your environment file.
 }

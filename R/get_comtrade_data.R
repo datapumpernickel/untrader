@@ -17,6 +17,9 @@
 #' @param process Whether to return the raw httr2 request or a data.frame with the results.
 #' @param verbose whether the function sends status updates to the console
 #' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.
+#' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.
+#' @param partner_2 This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.
+#' @param customs_code The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.
 #'
 #' @examplesIf interactive()
 #' get_comtrade_data(frequency = 'A',
@@ -42,6 +45,9 @@ get_comtrade_data <- function(frequency = 'A',
                               process = T,
                               verbose = F,
                               primary_token = get_primary_comtrade_key(),
+                              mode_of_transport = '0',
+                              partner_2 = '0',
+                              customs_code ='C00',
                               ...) {
   ## compile codes
   params <- check_params(

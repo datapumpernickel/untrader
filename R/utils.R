@@ -14,7 +14,9 @@ set_primary_comtrade_key <- function(key = NULL) {
 }
 
 #' get_primary_comtrade_key
+#'
 #' If you would like your Comtrade API key to persist in between sessions, use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY to your environment file.
+#'
 #' @return Gets your primary comtrade key from the environment var COMTRADE_PRIMARY
 #' @export
 get_primary_comtrade_key <- function() {

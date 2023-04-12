@@ -13,6 +13,9 @@ check_params(
   partner = NULL,
   start_date = NULL,
   end_date = NULL,
+  mode_of_transport = "0",
+  partner_2 = "0",
+  customs_code = "C00",
   verbose = F,
   ...
 )
@@ -33,6 +36,12 @@ check_params(
 \item{start_date}{Start date of a time period.}
 
 \item{end_date}{End date of a time period.}
+
+\item{mode_of_transport}{The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.}
+
+\item{partner_2}{This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.}
+
+\item{customs_code}{The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.}
 
 \item{verbose}{whether the function sends status updates to the console}
 

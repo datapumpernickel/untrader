@@ -11,6 +11,9 @@
 #' @param start_date Start date of a time period.
 #' @param end_date End date of a time period.
 #' @param verbose whether the function sends status updates to the console
+#' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.
+#' @param partner_2 This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.
+#' @param customs_code The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.
 #' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters exactly as they are put in.
 #'
 #' @return returns a list of named parameters for building a request
@@ -22,6 +25,9 @@ check_params <- function(frequency = 'A',
                          partner = NULL,
                          start_date = NULL,
                          end_date= NULL,
+                         mode_of_transport = '0',
+                         partner_2 = '0',
+                         customs_code ='C00',
                          verbose = F,
                          ...) {
 
@@ -67,9 +73,9 @@ check_params <- function(frequency = 'A',
       partnerCode = partner,
       reporterCode = reporter,
       period = period,
-      motCode = '0',
-      partner2Code = '0',
-      customsCode ='C00',
+      motCode = mode_of_transport,
+      partner2Code = partner_2,
+      customsCode = customs_code,
       ...
     ),
     url_params = list(freq = frequency,
@@ -308,10 +314,19 @@ check_partnerCode <- function(partner) {
 
 
 ## the get date range function was taken from https://github.com/ropensci/comtradr/blob/master/tests/testthat/test-ct_search.R
-#' check_date
+
+#' Check date parameter
 #'
-#' @return Date range as a single string, comma sep.
-#' @noRd
+#' This function checks that the given period code is valid. If the range or format is not valid, the function throws an error message indicating which codes are invalid. It also converts the input to the proper format if necessary.
+#'
+#' @param start_date The start date of the query, either in the format `yyyy` or `yyyy-mm`.
+#' @param end_date The end date of the query, either in the format `yyyy` or `yyyy-mm`. Can be a maximum of 12 years after the start date for the annuel frequency or one year for monthly.
+#' @param frequency The frequency of reported trade data, either `A` for annual or `M` for monthly.
+#'
+#' @return A character vector of valid reporter IDs.
+#'
+#' @examplesIf interactive()
+#' check_date(2010,2011,'A')
 check_date <- function(start_date, end_date, frequency) {
   start_date <- as.character(start_date)
   end_date <- as.character(end_date)
