@@ -60,6 +60,9 @@
 <span>  partner <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  start_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  end_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mode_of_transport <span class="op">=</span> <span class="st">"0"</span>,</span>
+<span>  partner_2 <span class="op">=</span> <span class="st">"0"</span>,</span>
+<span>  customs_code <span class="op">=</span> <span class="st">"C00"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -97,6 +100,18 @@
 
 <dt>end_date</dt>
 <dd><p>End date of a time period.</p></dd>
+
+
+<dt>mode_of_transport</dt>
+<dd><p>The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.</p></dd>
+
+
+<dt>partner_2</dt>
+<dd><p>This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.</p></dd>
+
+
+<dt>customs_code</dt>
+<dd><p>The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.</p></dd>
 
 
 <dt>verbose</dt>
