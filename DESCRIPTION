@@ -23,4 +23,5 @@ Depends:
 URL: https://datapumpernickel.github.io/untrader/
 Suggests: 
     knitr
+    rmarkdown
 VignetteBuilder: knitr
