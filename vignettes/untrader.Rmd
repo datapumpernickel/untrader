@@ -56,13 +56,13 @@ If for some reason, you want to set the API key manually, you can also pass it o
 When getting data from comtrade, you will need to set values for most parameters, as there is no sensitive default for some of them. 
 
 ```{r error with no params,eval=F}
-untrader::get_comtrade_data()
+get_comtrade_data()
 ```
 
 If you are for example interested in the exports of "Beer made from malt", HS code [2203](https://www.tariffnumber.com/2023/2203) from Germany to Austria, in the year 2010, you would use the following code. 
 
 ```{r valid request,eval=F}
-untrader::get_comtrade_data(frequency =  'A',
+get_comtrade_data(frequency =  'A',
                    commodity_classification = 'HS',
                    commodity_code = '2203',
                    flow_direction = 'export',
