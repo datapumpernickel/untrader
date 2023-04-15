@@ -6,3 +6,4 @@
 *.Rproj
 docs
 inst/doc
+.DS_Store
