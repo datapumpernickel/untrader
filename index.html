@@ -78,10 +78,10 @@
 <!-- badges: start -->
 
 <div class="section level2">
-<h2 id="id_-under-development---looking-for-help-">🚧 Under development - Looking for help 🤗<a class="anchor" aria-label="anchor" href="#id_-under-development---looking-for-help-"></a>
+<h2 id="id_-package-soon-to-be-archived-">🚧 Package soon to be archived! 🚧<a class="anchor" aria-label="anchor" href="#id_-package-soon-to-be-archived-"></a>
 </h2>
-<p>The goal of untrader is to provide a simple wrapper function for the new <a href="https://comtradeplus.un.org/" class="external-link">Comtrade API of the UN</a>. The legacy API was very nicely wrapped in the <a href="https://github.com/ropensci/comtradr" class="external-link">comtradr</a> package. Since there have been extensive changes to the API, I have decided to have a clean start with a new wrapper for the new API. However, a lot of the structure and set-up has been inspired from the original <code>comtradr</code> package and one function (check_date() function) has been entirely copied over with minor changes.</p>
-<p>Let me know, if you would like to be part of the developing process and help maintain the package!</p>
+<p>This package will soon be archived in favor of a relaunch of the <a href="https://github.com/ropensci/comtradr" class="external-link">comtradr</a> package.</p>
+<p>While we are still making changes to comtradr I will keep this package online, because the main function and API to the Goods endpoint of Comtrade is working, but please be aware, that the package might be archived at any time.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -118,52 +118,67 @@
 <span><span class="co">#&gt; ✔ Checked validity of commodity_code.</span></span>
 <span><span class="co">#&gt; ✔ Checked validity of reporter.</span></span>
 <span><span class="co">#&gt; ✔ Checked validity of partner.</span></span>
-<span><span class="co">#&gt; ✔ Checked validity of period.</span></span>
+<span><span class="co">#&gt; ✔ Checked validity of start and end dates.</span></span>
 <span><span class="co">#&gt; ℹ URL that will be queried:</span></span>
-<span><span class="co">#&gt;   https://comtradeapi.un.org/data/v1/get/C/A/HS?cmdCode=2204%2C2203&amp;flowCode=X&amp;partnerCode=0&amp;reporterCode=32%2C826&amp;period=2018%2C2019%2C2020%2C2021&amp;motCode=0&amp;partner2Code=0&amp;customsCode=C00</span></span>
+<span><span class="co">#&gt;   https://comtradeapi.un.org/data/v1/get/C/A/HS?cmdCode=2204%2C2203&amp;flowCode=X&amp;partnerCode=0&amp;reporterCode=32%2C826&amp;period=2018%2C2019%2C2020%2C2021&amp;motCode=0&amp;partner2Code=0&amp;customsCode=C00&amp;includeDesc=TRUE</span></span>
 <span><span class="co">#&gt; ℹ Performing request, which can take a few seconds, depending on the amount of</span></span>
 <span><span class="co">#&gt;   data queried</span></span>
 <span><span class="co">#&gt; ✔ Got a response object from Comtrade. Use `process = F` if there is an error</span></span>
 <span><span class="co">#&gt;   after this step to find issues with the response object.</span></span>
 <span></span>
-<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">exports</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">period</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">primaryValue</span> <span class="op">/</span> <span class="fl">1000000</span>,</span>
+<span>    fill <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_wrap.html" class="external-link">str_wrap</a></span><span class="op">(</span><span class="va">cmdDesc</span>,<span class="fl">30</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  position <span class="op">=</span> <span class="st">'dodge'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="va">.</span> <span class="op">~</span> <span class="va">reporterDesc</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"HS Code"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'#F3B562'</span>,<span class="st">'#F06060'</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Exports in Million USD"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">xlab</span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Exports of Wine and Beer from Great Britain and Argentina'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-example-1.png" width="100%"></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">exports</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 'data.frame':    16 obs. of  52 variables:</span></span>
-<span><span class="co">#&gt;  $ reporterCode            : int  32 32 826 826 32 32 826 826 32 32 ...</span></span>
-<span><span class="co">#&gt;  $ partnerCode             : int  0 0 0 0 0 0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;  $ cmdCode                 : chr  "2203" "2204" "2203" "2204" ...</span></span>
+<span><span class="co">#&gt; 'data.frame':    16 obs. of  47 variables:</span></span>
 <span><span class="co">#&gt;  $ typeCode                : chr  "C" "C" "C" "C" ...</span></span>
 <span><span class="co">#&gt;  $ freqCode                : chr  "A" "A" "A" "A" ...</span></span>
 <span><span class="co">#&gt;  $ refPeriodId             : int  20180101 20180101 20180101 20180101 20190101 20190101 20190101 20190101 20200101 20200101 ...</span></span>
 <span><span class="co">#&gt;  $ refYear                 : int  2018 2018 2018 2018 2019 2019 2019 2019 2020 2020 ...</span></span>
 <span><span class="co">#&gt;  $ refMonth                : int  52 52 52 52 52 52 52 52 52 52 ...</span></span>
 <span><span class="co">#&gt;  $ period                  : chr  "2018" "2018" "2018" "2018" ...</span></span>
-<span><span class="co">#&gt;  $ reporterISO             : logi  NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  $ reporterDesc            : logi  NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ reporterCode            : int  32 32 826 826 32 32 826 826 32 32 ...</span></span>
+<span><span class="co">#&gt;  $ reporterISO             : chr  "ARG" "ARG" "GBR" "GBR" ...</span></span>
+<span><span class="co">#&gt;  $ reporterDesc            : chr  "Argentina" "Argentina" "United Kingdom" "United Kingdom" ...</span></span>
 <span><span class="co">#&gt;  $ flowCode                : chr  "X" "X" "X" "X" ...</span></span>
-<span><span class="co">#&gt;  $ flowDesc                : logi  NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  $ partnerISO              : logi  NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  $ partnerDesc             : logi  NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ flowDesc                : chr  "Export" "Export" "Export" "Export" ...</span></span>
+<span><span class="co">#&gt;  $ partnerCode             : int  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span><span class="co">#&gt;  $ partnerISO              : chr  "W00" "W00" "W00" "W00" ...</span></span>
+<span><span class="co">#&gt;  $ partnerDesc             : chr  "World" "World" "World" "World" ...</span></span>
 <span><span class="co">#&gt;  $ partner2Code            : int  0 0 0 0 0 0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;  $ partner2ISO             : logi  NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  $ partner2Desc            : logi  NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ partner2ISO             : chr  "W00" "W00" "W00" "W00" ...</span></span>
+<span><span class="co">#&gt;  $ partner2Desc            : chr  "World" "World" "World" "World" ...</span></span>
 <span><span class="co">#&gt;  $ classificationCode      : chr  "H5" "H5" "H5" "H5" ...</span></span>
 <span><span class="co">#&gt;  $ classificationSearchCode: chr  "HS" "HS" "HS" "HS" ...</span></span>
 <span><span class="co">#&gt;  $ isOriginalClassification: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...</span></span>
-<span><span class="co">#&gt;  $ cmdDesc                 : logi  NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  $ aggrLevel               : logi  NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  $ isLeaf                  : logi  NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ cmdCode                 : chr  "2203" "2204" "2203" "2204" ...</span></span>
+<span><span class="co">#&gt;  $ cmdDesc                 : chr  "Beer made from malt" "Wine of fresh grapes, including fortified wines; grape must other than that of heading no. 2009" "Beer made from malt" "Wine of fresh grapes, including fortified wines; grape must other than that of heading no. 2009" ...</span></span>
+<span><span class="co">#&gt;  $ aggrLevel               : int  4 4 4 4 4 4 4 4 4 4 ...</span></span>
+<span><span class="co">#&gt;  $ isLeaf                  : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</span></span>
 <span><span class="co">#&gt;  $ customsCode             : chr  "C00" "C00" "C00" "C00" ...</span></span>
-<span><span class="co">#&gt;  $ customsDesc             : logi  NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ customsDesc             : chr  "TOTAL CPC" "TOTAL CPC" "TOTAL CPC" "TOTAL CPC" ...</span></span>
 <span><span class="co">#&gt;  $ mosCode                 : chr  "0 " "0 " "0 " "0 " ...</span></span>
 <span><span class="co">#&gt;  $ motCode                 : int  0 0 0 0 0 0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;  $ motDesc                 : logi  NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ motDesc                 : chr  "TOTAL MOT" "TOTAL MOT" "TOTAL MOT" "TOTAL MOT" ...</span></span>
 <span><span class="co">#&gt;  $ qtyUnitCode             : int  7 7 7 7 7 7 7 -1 7 7 ...</span></span>
-<span><span class="co">#&gt;  $ qtyUnitAbbr             : logi  NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ qtyUnitAbbr             : chr  "l" "l" "l" "l" ...</span></span>
 <span><span class="co">#&gt;  $ qty                     : num  2.30e+07 2.69e+08 5.34e+08 1.23e+08 2.98e+07 ...</span></span>
 <span><span class="co">#&gt;  $ isQtyEstimated          : logi  FALSE FALSE TRUE TRUE FALSE FALSE ...</span></span>
 <span><span class="co">#&gt;  $ altQtyUnitCode          : int  7 7 -1 -1 7 7 -1 -1 7 7 ...</span></span>
-<span><span class="co">#&gt;  $ altQtyUnitAbbr          : logi  NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ altQtyUnitAbbr          : chr  "l" "l" "N/A" "N/A" ...</span></span>
 <span><span class="co">#&gt;  $ altQty                  : num  2.30e+07 2.69e+08 0.00 0.00 2.98e+07 ...</span></span>
 <span><span class="co">#&gt;  $ isAltQtyEstimated       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</span></span>
 <span><span class="co">#&gt;  $ netWgt                  : num  2.44e+07 2.69e+08 5.37e+08 1.35e+08 3.05e+07 ...</span></span>
@@ -175,27 +190,7 @@
 <span><span class="co">#&gt;  $ primaryValue            : num  1.39e+07 8.20e+08 6.53e+08 8.25e+08 1.72e+07 ...</span></span>
 <span><span class="co">#&gt;  $ legacyEstimationFlag    : int  0 0 0 0 0 0 2 6 0 0 ...</span></span>
 <span><span class="co">#&gt;  $ isReported              : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</span></span>
-<span><span class="co">#&gt;  $ isAggregate             : logi  TRUE TRUE TRUE TRUE TRUE TRUE ...</span></span>
-<span><span class="co">#&gt;  $ cmd_description         : chr  "2203 - Beer made from malt" "2204 - Wine of fresh grapes, including fortified wines; grape must other than that of heading no. 2009" "2203 - Beer made from malt" "2204 - Wine of fresh grapes, including fortified wines; grape must other than that of heading no. 2009" ...</span></span>
-<span><span class="co">#&gt;  $ partner_iso3c           : chr  "W00" "W00" "W00" "W00" ...</span></span>
-<span><span class="co">#&gt;  $ partner_description     : chr  "World" "World" "World" "World" ...</span></span>
-<span><span class="co">#&gt;  $ reporter_iso3c          : chr  "ARG" "ARG" "GBR" "GBR" ...</span></span>
-<span><span class="co">#&gt;  $ reporter_description    : chr  "Argentina" "Argentina" "United Kingdom" "United Kingdom" ...</span></span>
-<span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">exports</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_col</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">period</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">primaryValue</span> <span class="op">/</span> <span class="fl">1000000</span>,</span>
-<span>    fill <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_wrap.html" class="external-link">str_wrap</a></span><span class="op">(</span><span class="va">cmd_description</span>,<span class="fl">30</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  position <span class="op">=</span> <span class="st">'dodge'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="va">.</span> <span class="op">~</span> <span class="va">reporter_description</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"HS Code"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'#F3B562'</span>,<span class="st">'#F06060'</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Exports in Million USD"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">xlab</span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Exports of Wine and Beer from Great Britain and Argentina'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-1.png" width="100%"></p>
+<span><span class="co">#&gt;  $ isAggregate             : logi  TRUE TRUE TRUE TRUE TRUE TRUE ...</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
