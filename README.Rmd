@@ -19,13 +19,11 @@ knitr::opts_chunk$set(
 [![R CMD Check](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/datapumpernickel/untrader/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-## 🚧 Under development - Looking for help 🤗
+## 🚧 Package soon to be archived! 🚧 
 
-The goal of untrader is to provide a simple wrapper function for the new [Comtrade API of the UN](https://comtradeplus.un.org/). The legacy API was very nicely wrapped in the [comtradr](https://github.com/ropensci/comtradr) package. Since there have been extensive changes to the API, I have decided to have a clean start with a new wrapper for the new API. However, a lot of the structure and set-up has been inspired from the original `comtradr` package and one function (check_date() function) has been entirely copied over with minor changes. 
+This package will soon be archived in favor of a relaunch of the [comtradr](https://github.com/ropensci/comtradr) package. 
 
-Let me know, if you would like to be part of the developing process and help maintain the package!
-
-
+While we are still making changes to comtradr I will keep this package online, because the main function and API to the Goods endpoint of Comtrade is working, but please be aware, that the package might be archived at any time. 
 
 
 ## Installation
@@ -59,22 +57,22 @@ exports <- get_comtrade_data(frequency =  'A',
                    verbose = T,
                   process = T)
 
-
-str(exports)
-
 ggplot(exports) +
   geom_col(aes(
     x = period,
     y = primaryValue / 1000000,
-    fill = str_wrap(cmd_description,30)
+    fill = str_wrap(cmdDesc,30)
   ),
   position = 'dodge') +
-  facet_wrap(. ~ reporter_description) +
+  facet_wrap(. ~ reporterDesc) +
   theme_minimal() +
   scale_fill_manual(name = "HS Code", values = c('#F3B562','#F06060'))+
   ylab("Exports in Million USD") +
   xlab("Year") +
   labs(title = 'Exports of Wine and Beer from Great Britain and Argentina')
+
+str(exports)
+
 ```
 
 
